@@ -41,18 +41,70 @@
         a { text-decoration: none; color: inherit; }
 
         /* --- Desain Header & Kotak Cari --- */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background-color: var(--bg-header); }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: var(--bg-header); }
         .logo { font-size: 26px; font-weight: bold; font-style: italic; color: #ff5c8a; cursor: pointer; user-select: none; display: inline-block; transition: opacity 0.2s;}
         .logo:hover { opacity: 0.8; }
-        .search-box { display: flex; background: #111; border-radius: 4px; overflow: hidden; border: 1px solid #333; }
-        .search-box input { background: transparent; border: none; padding: 12px 15px; color: white; width: 298px; outline: none; font-size: 14px; }
+        .search-box { display: flex; background: #111; border-radius: 100px; overflow: hidden; border: 1px solid #333; }
+        .search-box input { background: transparent; border: none; padding: 10px 12px; color: white; width: 298px; outline: none; font-size: 14px; }
         .search-box button { background: var(--accent-color); border: none; padding: 10px 17px; color: white; cursor: pointer; }
 
 
-        /* --- Desain Menu Navigasi --- */
-        nav { background-color: var(--bg-header); padding: 8px 20px; display: flex; gap: 10px; border-bottom: 1px solid #222; overflow-x: auto; white-space: nowrap; align-items: center; min-height: 30px;}
-        nav a { padding: 8px 13px; font-size: 13px; font-weight: bold; transition: background 0.2s; color: #ddd; border-radius: 4px; border: 1px solid #444; }
-        nav a.active, nav a:hover { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+  
+        /* --- 1. Desain Menu Navigasi (Otomatis untuk Layar HP) --- */
+        nav { 
+        background-color: var(--bg-header); 
+        padding: 10px 20px 25px 20px; /* Angka 25px adalah Jarak Bawah setelah menu kategori */
+        display: flex; 
+        gap: 6px; /* Jarak dirapatkan sedikit agar muat 4 tombol */
+        border-bottom: 1px solid #222; 
+        align-items: center; 
+        min-height: 30px;
+  
+        /* MATIKAN SCROLL */
+        overflow: hidden; 
+  
+    /* Bikin wadah rata memanjang */
+         justify-content: space-between; 
+       }
+
+         nav a { 
+      /* Trik "Sejajar" di HP: Tombol otomatis membagi ruang layar sama besar */
+         flex: 1; 
+         text-align: center;
+         display: flex;
+         justify-content: center;
+  
+       /* Ukuran font & padding dikecilkan sedikit khusus HP agar tidak nabrak */
+        padding: 8px 2px; 
+        font-size: 12px; 
+        font-weight: bold; 
+        transition: background 0.2s; 
+        color: #ddd; 
+        border-radius: 100px; 
+        border: 1px solid #444; 
+      }
+
+        nav a.active, nav a:hover { 
+        background-color: var(--accent-color); 
+        color: #fff; 
+        border-color: var(--accent-color); 
+      }
+
+
+   /* --- 2. Desain Menu Navigasi (Khusus Layar Desktop/Laptop) --- */
+        @media (min-width: 769px) {
+         nav {
+         justify-content: flex-start; /* Kiri semua kayak biasanya */
+         padding: 8px 20px; /* Kembalikan padding wadah seperti semula */
+         gap: 12px; /* Jarak antar tombol dinormalkan */
+       }
+  
+          nav a {
+          flex: none; /* Tombol kembali ke ukuran asli teks, tidak melar rata layar */
+          padding: 8px 16px; /* Padding di dalam tombol dibesarkan lagi */
+          font-size: 13px; /* Font dibesarkan lagi */
+     }
+}
         
 
         /* --- Desain Form Input Mode Edit --- */
@@ -64,23 +116,26 @@
         main { padding: 12px 20px; min-height: 80vh; }
         .section-header {
         display: flex;
-         justify-content: space-between;
-        align-items: center;
-        margin: 15px 8px;
-        background-color: #262626;
-        padding: 1px 8px;
-        border-left: 5px solid var(--accent-color);
-        box-sizing: border-box;
+       align-items: center;
+        /* Format margin: Atas Kanan Bawah Kiri */
+        margin: 20px 18px 8px 18px; /* Margin bawah dikecilkan jadi 4px */
+        background-color: transparent;
+  
+         /* Hilangkan border (garis) dan padding sepenuhnya */
+        border: none;
+        padding: 0; 
       }
 
-        @media (min-width: 769px) {
-       .section-header {
-        margin-left: 20px;
-        margin-right: 20px;
-       }
- }
-        .section-header h2 { font-size: 16px; font-weight: bold; color: #eee; } 
-
+        .section-header h2 { 
+         font-size: 16px;
+         font-weight: 700; 
+         color: #cccccc; 
+         margin: 0; 
+         line-height: 1.3; 
+         text-align: left; /* Memastikan teks tetap rapi di kiri */
+      }
+      
+      
         /* --- Desain Kartu Video & Thumbnail --- */
         .video-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 8px; }
         .video-card {
@@ -197,17 +252,99 @@
           margin: auto;
           padding: 15px 8px;
         }
-        .player-box iframe { width:100%; aspect-ratio:16/9; border:none; border-radius:3px; background:#000; }
-        #playerTitle { color:#fff; font-size:18px; margin-top:4px; margin-bottom:8px; }
-        .playerAds { margin-top:20px; text-align:center; margin-bottom: 30px; }
+
+        /* --- PEMBUNGKUS KOTAK PENUH UNTUK PLAYER --- */
+        .player-wrapper-card {
+            background-color: #262626;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.35);
+        }
+        
+        .player-box iframe { width:100%; aspect-ratio:16/9; border:none; display: block; background:#000; }
+        
+        #playerInfoBlock {
+            padding: 15px 15px 20px 15px;
+        }
+
+        #playerTitle { 
+            color:#fff; 
+            font-size:18px; 
+            line-height: 1.4; 
+            margin-bottom: 12px;
+        }
+        
+        .player-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .player-stats {
+            display: flex;
+            gap: 15px;
+            color: #ccc;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .player-view, .player-duration {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .player-share-btn {
+            background-color: #1a1a1a; 
+            color: white;
+            border: 1px solid #444;
+            padding: 8px 18px;
+            border-radius: 20px; 
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        
+        .player-share-btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        /* --- KOTAK IKLAN BANNER BERDIRI SENDIRI --- */
+        #playerAds { 
+            margin: 30px 0 40px 0; 
+            padding: 15px;
+            text-align: center; 
+            background-color: #262626; 
+            border: 1px solid #333;
+            border-radius: 4px;
+            width: 100%;
+            display: block;
+        }
+        
+        .ad-label {
+            display: block;
+            font-size: 10px;
+            color: #777;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
         .section-related {
          background: #262626;
-         padding: 5px 10px;
+         padding: 10px 10px;
          border-left: 5px solid var(--accent-color);
-         margin-top: 40px;
          margin-bottom: 18px;
        }
-      .section-related h2 { font-size: 14px; font-weight: bold; color: #eee; } 
+      .section-related h2 { font-size: 16px; font-weight: bold; color: #eee; } 
       
        @media (min-width: 769px) {
        #playerPage {
@@ -225,7 +362,9 @@
         /* --- Desain Responsif Mobile / Tablet --- */
         @media (max-width: 1024px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .video-grid { grid-template-columns: repeat(2, 1fr); } header, nav, main { padding-left: 8px; padding-right: 8px; } }
-        @media (max-width: 480px) { .video-grid { grid-template-columns: repeat(2, 1fr); } header { flex-direction: column; gap: 3px; } }
+        @media (max-width: 480px) { .video-grid { grid-template-columns: repeat(2, 1fr); }  header {  flex-direction: column;  gap: 15px; /* Mengatur jarak antara Logo dan Kotak Search */   padding-top: 25px; /* Mengatur Jarak Atas layar ke Logo */ padding-bottom: 15px; /* Mengatur Jarak dari Search ke batas Menu Kategori */
+    } 
+}
     </style>
     
     <!-- ===================================================
@@ -236,7 +375,7 @@
         window.DATA_MENU = [{"text":"Indonesia","link":"https://www.link-iklan-anda.com"},{"text":"Jav","link":"https://www.link-iklan-anda.com"},{"text":"Western","link":"https://www.link-iklan-anda.com"}];
         window.DATA_VIDEO = [];
     </script>
-    <!-- TEMPEL DI INI BAWAH IKLAN ADSTERA -->
+    <!-- TEMPEL DI BAWAH SINI IKLAN ADSTERA -->
 </head>
 <body>
     <!-- ===================================================
@@ -269,15 +408,36 @@
 
     <!-- Halaman Khusus Nonton Video (Player Page) -->
     <div id="playerPage">
-        <div class="player-box"><iframe id="playerFrame" allowfullscreen frameborder="0"></iframe></div>
-        <h2 id="playerTitle"></h2>
+        
+        <!-- BUNGKUSAN KOTAK FULL UNTUK PEMUTAR & JUDUL -->
+        <div class="player-wrapper-card">
+            <div class="player-box">
+                <iframe id="playerFrame" allowfullscreen frameborder="0"></iframe>
+            </div>
+            
+            <div id="playerInfoBlock">
+                <h2 id="playerTitle"></h2>
+                <div class="player-meta-row">
+                    <div class="player-stats">
+                        <span class="player-view"><i class="fa-solid fa-eye"></i> <span class="view-count"></span></span>
+                        <span class="player-duration"><i class="fa-regular fa-clock"></i> <span class="duration-count"></span></span>
+                    </div>
+                    <button class="player-share-btn" onclick="openShareMenu()">
+                        <i class="fa-solid fa-share"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- STANDALONE BANNER BLOCK -->
         <div id="playerAds">
+            <span class="ad-label">- Advertisement -</span>
             <!-- Tempel kode iklan banner di sini -->
         </div>
         
         <!-- Video Rekomendasi Acak -->
         <div class="related-section">
-            <div class="section-related"><h2>Related Videos</h2></div>
+            <div class="section-related"><h2>Related Videos :</h2></div>
             <div class="video-grid" id="tempat-video-related"></div>
         </div>
     </div>
@@ -448,9 +608,9 @@ function cariVideo(event){
             // 3. Update Judul sesuai hasil
             sectionTitle.style.display = "block";
             if(hasilPencarian.length > 0) {
-                titleText.textContent = "Search results for: \"" + keywordInput + "\"";
+                titleText.textContent = "Search results for : \"" + keywordInput + "\"";
             } else {
-                titleText.textContent = "No results found for: \"" + keywordInput + "\"";
+                titleText.textContent = "No results found for : \"" + keywordInput + "\"";
             }
         }
         
@@ -509,7 +669,13 @@ function arahkanKeLink(video) {
     document.getElementById("sectionTitle").style.display = "none";
     document.querySelector("main").style.display = "none";
     document.getElementById("playerPage").style.display = "block";
+    
+    // 2. Populate Detailed Player Page
     document.getElementById("playerTitle").textContent = video.judul;
+    const playerStatsBlock = document.querySelector(".player-stats");
+    playerStatsBlock.querySelector(".view-count").textContent = video.views;
+    playerStatsBlock.querySelector(".duration-count").textContent = video.durasi;
+    
     document.getElementById("playerFrame").src = video.player || video.tujuan || "";
     tampilkanVideoRelated();
     window.scrollTo(0, 0); 
@@ -547,7 +713,13 @@ window.addEventListener("popstate", function(event) {
         document.getElementById("sectionTitle").style.display = "none";
         document.querySelector("main").style.display = "none";
         document.getElementById("playerPage").style.display = "block";
+        
+        // 4. Populate Detailed Player Page (Back behavior)
         document.getElementById("playerTitle").textContent = state.video.judul;
+        const playerStatsBlock = document.querySelector(".player-stats");
+        playerStatsBlock.querySelector(".view-count").textContent = state.video.views;
+        playerStatsBlock.querySelector(".duration-count").textContent = state.video.durasi;
+
         document.getElementById("playerFrame").src = state.video.player || state.video.tujuan || "";
         tampilkanVideoRelated();
         window.scrollTo(0, 0);
@@ -583,7 +755,7 @@ window.addEventListener("popstate", function(event) {
                     <input type="text" class="edit-sm-input edit-sm-link" id="input-header-link" value="${headerData.link}" placeholder="Link Redirect" style="width: 150px;">
                 </div>`;
             } else {
-                wadahLogo.innerHTML = `<a href="${headerData.link}"><img src="https://res.cloudinary.com/drtbkd5lr/image/upload/v1783158316/1000040907-removebg-preview_a8uua1.png" alt="Logo" style="height:auto; width:150px;"></a>`;
+                wadahLogo.innerHTML = `<a href="${headerData.link}"><img src="https://res.cloudinary.com/drtbkd5lr/image/upload/v1783861581/1000042072-removebg-preview_xc2pv9.png" alt="Logo" style="height: auto; width:150px; margin-bottom: 10px;"></a>`;
             }
         }
 
@@ -781,6 +953,27 @@ function tampilkanGrid() {
           });
 
       }
+      
+        // --- Modern Share Functionality ---
+        function openShareMenu() {
+            const videoJudul = document.getElementById("playerTitle").textContent;
+            const videoUrl = window.location.href;
+            
+            // Try standard Web Share API first for mobile native support
+            if (navigator.share) {
+                navigator.share({
+                    title: videoJudul,
+                    text: 'Check out this video on ZoneXhub: ' + videoJudul,
+                    url: videoUrl,
+                })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing', error));
+            } else {
+                alert('Navigator.share is not supported in this browser. Fallback menu would open here.');
+                let shareText = 'Check out this video on ZoneXhub: ' + videoJudul + ' ' + videoUrl;
+                prompt('Copy this video share message:', shareText);
+            }
+        }
 
         // --- Fungsi Mengubah Mode Web Menjadi Mode Edit ---
         function toggleEditMode() {
