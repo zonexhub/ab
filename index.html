@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- ===================================================
+         1. ANALYTICS & META TAGS
+         =================================================== -->
+    <!-- TARO DI SINI CODE ANALYTIC -->
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Video Viral Terbaru Hari Ini, Trending & Populer - ZoneXhub</title>
+
+    <meta name="description" content="Kumpulan video viral terbaru, trending, and populer hari ini. Update setiap hari dengan video yang sedang ramai dibicarakan di media sosial.">
+    <meta name="keywords" content="video viral, video trending, video populer, video terbaru, video viral hari ini, video viral tiktok, video media sosial, video seleb tiktok blunder, blunder, selebgram, tiktok">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Video Viral Terbaru Hari Ini - ZoneXhub">
+    <meta property="og:description" content="Kumpulan video viral terbaru dan trending yang sedang ramai dibicarakan.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zonexhub.net/">
+    <meta property="og:site_name" content="ZoneXhub">
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Video Viral Terbaru Hari Ini - ZoneXhub">
+    <meta name="twitter:description" content="Kumpulan video viral terbaru dan trending yang sedang ramai dibicarakan.">
+  
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/drtbkd5lr/image/upload/v1782371447/file_00000000ab607209949bdbd8f1a38a5c_uwam0w.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <!-- ===================================================
+         2. STYLE CSS (DESAIN TAMPILAN)
+         =================================================== -->
+    <style id="core-style">
+        /* --- Variabel & Reset Dasar --- */
+        :root { --bg-body: #1a1a1a; --bg-header: #202020; --accent-color: #ff5c8a; --text-main: #ffffff; --text-muted: #b3b3b3; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- Desain Header & Kotak Cari --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background-color: var(--bg-header); }
+        .logo { font-size: 26px; font-weight: bold; font-style: italic; color: #ff5c8a; cursor: pointer; user-select: none; display: inline-block; transition: opacity 0.2s;}
+        .logo:hover { opacity: 0.8; }
+        .search-box { display: flex; background: #111; border-radius: 4px; overflow: hidden; border: 1px solid #333; }
+        .search-box input { background: transparent; border: none; padding: 12px 15px; color: white; width: 298px; outline: none; font-size: 14px; }
+        .search-box button { background: var(--accent-color); border: none; padding: 10px 17px; color: white; cursor: pointer; }
+
+
+        /* --- Desain Menu Navigasi --- */
+        nav { background-color: var(--bg-header); padding: 8px 20px; display: flex; gap: 10px; border-bottom: 1px solid #222; overflow-x: auto; white-space: nowrap; align-items: center; min-height: 30px;}
+        nav a { padding: 8px 13px; font-size: 13px; font-weight: bold; transition: background 0.2s; color: #ddd; border-radius: 4px; border: 1px solid #444; }
+        nav a.active, nav a:hover { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+        
+
+        /* --- Desain Form Input Mode Edit --- */
+        .edit-block { display: inline-flex; flex-direction: column; gap: 4px; vertical-align: top; margin-right: 8px; padding-bottom: 5px; }
+        .edit-sm-input { background: #111; color: white; border: 1px solid var(--accent-color); padding: 6px; font-size: 12px; border-radius: 3px; outline: none; text-align: center; width: 100px; }
+        .edit-sm-link { border-color: #2ecc71; } 
+
+        /* --- Desain Grid Halaman Utama --- */
+        main { padding: 12px 20px; min-height: 80vh; }
+        .section-header {
+        display: flex;
+         justify-content: space-between;
+        align-items: center;
+        margin: 15px 8px;
+        background-color: #262626;
+        padding: 1px 8px;
+        border-left: 5px solid var(--accent-color);
+        box-sizing: border-box;
+      }
+
+        @media (min-width: 769px) {
+       .section-header {
+        margin-left: 20px;
+        margin-right: 20px;
+       }
+ }
+        .section-header h2 { font-size: 16px; font-weight: bold; color: #eee; } 
+
+        /* --- Desain Kartu Video & Thumbnail --- */
+        .video-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 8px; }
+        .video-card {
+         background: #262626;
+         border: 1px solid #333;
+         overflow: hidden;
+         position: relative;
+         cursor: pointer;
+         transition: transform .2s, box-shadow .2s;
+        box-shadow: 0 2px 8px rgba(0,0,0,.35);
+      }
+        .video-card:hover { transform: translateY(-3px); }
+        .video-card.editing:hover { transform: none; cursor: default; }
+        .thumbnail {
+         position: relative;
+         width: 100%;
+         aspect-ratio: 16/10;
+         background: #000;
+         overflow: hidden;
+       }
+        .thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.2s; }
+
+        /* --- Desain Teks & Durasi/Views di Thumbnail --- */
+        .overlay-stats { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 6px 6px; background: transparent; font-size: 10px; font-weight: bold; pointer-events: none; z-index: 2; text-shadow: 0 1px 3px rgba(0,0,0,.9); }
+        .overlay-stats span { display: flex; align-items: center; gap: 2px; background: rgba(0, 0, 0, 0.50); padding: 2px 4px; border-radius: 3px; color: #fff; line-height: 1; }
+        .overlay-stats .view, .overlay-stats .duration { font-size: 12px; display: flex; align-items: center; gap: 4px; }
+        .overlay-stats i { font-size: 8px; }
+        .info {
+        padding: 3px 8px;
+        background: #262626;
+        text-align: left;
+       }
+        .likes { color: #fff; font-size: 11px; font-weight: bold; margin-bottom: 4px; display: flex; justify-content: center; gap: 4px; }
+        .title {
+         color: #fff;
+         font-size: 14px;
+         line-height: 1.3;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         display: -webkit-box;
+        -webkit-line-clamp: 2;      /* Maksimal 2 baris */
+        -webkit-box-orient: vertical;
+        min-height: calc(1.4em * 2); /* Tinggi tetap 2 baris */
+    }
+
+        /* --- Desain Overlay Lapisan Mode Edit --- */
+        .edit-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(92, 32, 214, 0.7); color: white; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; font-size: 14px; text-align: center; padding: 10px; z-index: 10;}
+        .video-card.editing .edit-overlay { display: flex; }
+        .video-card.editing .thumbnail img { opacity: 0.3; }
+        .edit-input-title, .edit-input-link { display: none; width: 100%; background: #222; color: white; padding: 6px; font-size: 11px; text-align: center; margin-top: 5px; outline: none; border-radius: 2px;}
+        .edit-input-title { border: 1px solid var(--accent-color); }
+        .edit-input-link { border: 1px solid #2ecc71; }
+        .video-card.editing .title { display: none; }
+        .video-card.editing .edit-input-title,
+        .video-card.editing .edit-input-link { display: block; }
+
+        /* --- Desain Tombol Angka Halaman (Pagination) --- */
+        .pagination { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 50px 0 20px 0; }
+        .pagination button { background-color: #2a2a2a; color: #ccc; border: none; padding: 8px 14px; border-radius: 3px; cursor: pointer; font-size: 13px; font-weight: bold; transition: background 0.2s;}
+        .pagination button:hover { background-color: #444; }
+        .pagination button.active { background-color: var(--accent-color); color: white; }
+
+        /* --- Desain Bagian Bawah (Footer) --- */
+        footer {
+        background-color: #1a1a1a;
+        padding: 30px 20px;
+        text-align: center;
+        border-top: 1px solid #333;
+        position: relative;
+     }
+
+        footer p {
+        color: #999;
+        font-size: 13px;
+        line-height: 1.8;
+        max-width: 900px;
+        margin: 0 auto 15px;
+     }
+
+        .footer-links {
+        display: flex;
+         justify-content: center;
+        gap: 20px;
+         flex-wrap: wrap;
+         margin-top: 30px;
+         margin-bottom: 15px;
+      }
+
+       .footer-links a {
+        color: var(--accent-color);
+        font-size: 12px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color .2s;
+      }
+
+       .footer-links a:hover {
+        color: #fff;
+      }
+
+        
+
+        /* --- Desain Tombol Layang Admin (FAB) --- */
+        .fab-container { position: fixed; bottom: 20px; right: 20px; display: none; flex-direction: column; gap: 10px; z-index: 1000; }
+        .fab-btn { background-color: var(--accent-color); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); font-size: 14px; }
+        .fab-btn.save { background-color: #2ecc71; display: none; } 
+        .fab-btn.download { background-color: #e74c3c; display: none; }
+
+        /* --- Desain Halaman Putar Video (Player Page) --- */
+        .redirect-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99999;color:white;justify-content:center;align-items:center;font-size:28px;font-weight:bold;text-align:center;}
+        #playerPage {
+          display: none;
+          max-width: 1200px;
+          margin: auto;
+          padding: 15px 8px;
+        }
+        .player-box iframe { width:100%; aspect-ratio:16/9; border:none; border-radius:3px; background:#000; }
+        #playerTitle { color:#fff; font-size:18px; margin-top:4px; margin-bottom:8px; }
+        .playerAds { margin-top:20px; text-align:center; margin-bottom: 30px; }
+        .section-related {
+         background: #262626;
+         padding: 5px 10px;
+         border-left: 5px solid var(--accent-color);
+         margin-top: 40px;
+         margin-bottom: 18px;
+       }
+      .section-related h2 { font-size: 14px; font-weight: bold; color: #eee; } 
+      
+       @media (min-width: 769px) {
+       #playerPage {
+        padding: 20px;
+       }
+   
+        #backBtn {
+        padding: 4px 10px;
+       }
+
+        .section-related {
+        padding: 8px 15px;
+      }
+}
+        /* --- Desain Responsif Mobile / Tablet --- */
+        @media (max-width: 1024px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .video-grid { grid-template-columns: repeat(2, 1fr); } header, nav, main { padding-left: 8px; padding-right: 8px; } }
+        @media (max-width: 480px) { .video-grid { grid-template-columns: repeat(2, 1fr); } header { flex-direction: column; gap: 3px; } }
+    </style>
+    
+    <!-- ===================================================
+         3. DATA ASLI MASTER SITUS (DATABASE VALUE)
+         =================================================== -->
+    <script id="data-situs">
+        window.DATA_HEADER = {"text":"ZoneXhub.net","link":"https://ZoneXhub.net"};
+        window.DATA_MENU = [{"text":"Indonesia","link":"https://www.link-iklan-anda.com"},{"text":"Jav","link":"https://www.link-iklan-anda.com"},{"text":"Western","link":"https://www.link-iklan-anda.com"}];
+        window.DATA_VIDEO = [];
+    </script>
+    <!-- TEMPEL DI INI BAWAH IKLAN ADSTERA -->
+</head>
+<body>
+    <!-- ===================================================
+         4. STRUKTUR HTML TAMPILAN ELEMEN
+         =================================================== -->
+    
+    <!-- Bagian Kepala Web (Header) -->
+    <header>
+        <div id="tempat-logo"></div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search video..." onkeyup="cariVideo(event)">
+            <button id="btnSecret"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </header>
+
+    <!-- Bagian Menu Kategori Navigasi -->
+    <nav id="menu-navigasi"></nav>
+    
+
+    <!-- JUDUL RELATED VIDEO ) -->
+       <div class="section-header" id="sectionTitle">
+    <h2>Viral Porn, Indonesian Porn, Western Porn, and Porn JAV.</h2>
+          </div>
+          
+    <!-- Konten Utama (Grid Video & Pagination) -->
+      <main>
+        <div class="video-grid" id="tempat-video"></div>
+        <div class="pagination" id="tempat-pagination"></div>
+     </main>
+
+    <!-- Halaman Khusus Nonton Video (Player Page) -->
+    <div id="playerPage">
+        <div class="player-box"><iframe id="playerFrame" allowfullscreen frameborder="0"></iframe></div>
+        <h2 id="playerTitle"></h2>
+        <div id="playerAds">
+            <!-- Tempel kode iklan banner di sini -->
+        </div>
+        
+        <!-- Video Rekomendasi Acak -->
+        <div class="related-section">
+            <div class="section-related"><h2>Related Videos</h2></div>
+            <div class="video-grid" id="tempat-video-related"></div>
+        </div>
+    </div>
+
+    <!-- Bagian Kaki Web (Footer) -->
+    <footer>
+    <p>
+        Welcome to ZoneXhub, your destination for discovering trending and popular adult entertainment videos in a modern, fast, and user-friendly environment. Our platform is designed to provide a smooth browsing experience with organized categories, responsive playback, and regularly updated content. Whether you're exploring the latest uploads or searching for specific categories, ZoneXhub aims to make finding new videos simple and enjoyable across desktop, tablet, and mobile devices.
+    </p>
+
+    <p>
+        We are committed to improving the user experience through a clean interface, fast page loading, and continuous updates to our content library. Our goal is to provide visitors with a reliable platform where they can easily discover fresh and trending videos while enjoying seamless navigation and high-quality streaming performance.
+    </p>
+
+    <div class="footer-links">
+        <a href="#">18 U.S.C. 2257</a>
+        <a href="#">DMCA</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+    </div>
+
+    <p onclick="bukaKunciRahasia()" style="cursor: default;">© 2026 ZoneXhub. All rights reserved.</p>
+</footer>
+
+    <!-- Tombol Melayang Panel Admin Masuk -->
+    <div class="fab-container" id="panelAdmin">
+        <button class="fab-btn download" id="btnDownload" onclick="downloadWebFinal()">📥 Bikin File Siap Sebar</button>
+        <button class="fab-btn save" id="btnSimpan" onclick="simpanPerubahan()">💾 Simpan Sementara</button>
+        <button class="fab-btn" onclick="tambahVideo()">➕ Tambah Video</button>
+        <button class="fab-btn" onclick="hapusVideo()">❌ Hapus Video</button>
+        <button class="fab-btn" id="btnEdit" onclick="toggleEditMode()">⚙️ Mode Edit</button>
+    </div>
+
+    <!-- ===================================================
+         5. LOGIKA SCRIPT JAVASCRIPT
+         =================================================== -->
+    <script id="core-script">
+        // --- System Login Rahasia Admin ---
+        let jumlahKlik = 0;
+        let waktuResetKlik;
+
+        // --- Init State & Membaca LocalStorage ---
+        let headerData = JSON.parse(localStorage.getItem('dataHeaderLokal')) || window.DATA_HEADER;
+        let menuData = JSON.parse(localStorage.getItem('dataMenuObjLokal')) || window.DATA_MENU;
+        let pagData = JSON.parse(localStorage.getItem('dataPagLokal')) || window.DATA_PAGINATION;
+        let videoData = JSON.parse(localStorage.getItem('dataVideoLokal')) || window.DATA_VIDEO;
+
+        const wadahLogo = document.getElementById("tempat-logo");
+        const wadahVideo = document.getElementById("tempat-video");
+        const wadahMenu = document.getElementById("menu-navigasi");
+        const wadahPag = document.getElementById("tempat-pagination");
+        let isEditMode = false;
+        const videoPerHalaman = 14;
+        let halamanSekarang = 1;
+        let hasilPencarian = null;
+        let kategoriAktif = "HOME";
+        let debounceTimer;
+        let posisiScrollTerakhir = 0;
+
+        // --- Fungsi Buka Kunci Admin Klik 7x ---
+function bukaKunciRahasia() {
+    jumlahKlik++;
+    clearTimeout(waktuResetKlik);
+    
+    if (jumlahKlik >= 7) {
+        let pass = prompt("Masukkan Password Admin");
+        
+        // "pass &&" mencegah error jika pengunjung menekan Cancel/Batal
+        if (pass && btoa(pass) === "YWI=") { 
+            document.getElementById('panelAdmin').style.display = 'flex';
+            alert("Login Berhasil!");
+        } else {
+            alert("Password Salah atau Dibatalkan!");
+        }
+        
+        jumlahKlik = 0;
+    } else {
+        waktuResetKlik = setTimeout(() => { jumlahKlik = 0; }, 1500);
+    }
+}
+
+        
+         function filterKategori(kategori){
+    document.getElementById("playerPage").style.display = "none";
+    document.querySelector("main").style.display = "block";
+    document.querySelector("nav").style.display = "flex";
+
+    kategoriAktif = kategori;
+    hasilPencarian = null;
+
+    if (kategori !== "HOME") {
+        document.getElementById("sectionTitle").style.display = "none";
+    } else {
+        document.getElementById("sectionTitle").style.display = "block";
+    }
+
+    document.getElementById("searchInput").value="";
+    halamanSekarang=1;
+    tampilkanPagination();
+    tampilkanGrid();
+
+    // REKAM SEBAGAI HISTORY BARU
+    history.pushState({ 
+        view: 'grid', 
+        page: 1, 
+        category: kategoriAktif, 
+        search: '',
+        scrollY: 0 
+    }, "");
+}
+
+
+           function kembaliKeHome() {
+           document.getElementById("playerPage").style.display = "none";
+           document.querySelector("main").style.display = "block";
+           document.querySelector("nav").style.display = "flex";
+           document.getElementById("playerFrame").src = "";
+
+           filterKategori("HOME");
+        }
+
+
+        // --- Fungsi Sistem Ganti Halaman Konten ---
+function gantiHalaman(page){
+    halamanSekarang = page;
+    tampilkanPagination();
+    tampilkanGrid();
+    window.scrollTo({top:0,behavior:'smooth'});
+
+    // REKAM SEBAGAI HISTORY BARU
+    history.pushState({ 
+        view: 'grid', 
+        page: halamanSekarang, 
+        category: kategoriAktif, 
+        search: document.getElementById('searchInput').value,
+        scrollY: 0 
+    }, "");
+}
+
+        // --- Fungsi Fitur Mesin Pencari Video (Update Terbaru) ---
+function cariVideo(event){
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        
+        // 1. Transisi: Paksa kembali ke halaman utama dari Player Page
+        document.getElementById("playerPage").style.display = "none";
+        document.querySelector("main").style.display = "block";
+        document.querySelector("nav").style.display = "flex";
+        document.getElementById("playerFrame").src = ""; // Stop video
+
+        const keywordInput = document.getElementById('searchInput').value;
+        const keyword = keywordInput.toLowerCase().trim();
+        const sectionTitle = document.getElementById("sectionTitle");
+        const titleText = sectionTitle.querySelector("h2");
+
+        // 2. Logika Pencarian
+        if(keyword === ''){
+            // Jika kolom pencarian dikosongkan, kembalikan ke judul asli
+            hasilPencarian = null;
+            sectionTitle.style.display = "block";
+            titleText.textContent = "Viral Porn, Indonesian Porn, Western Porn, and Porn JAV.";
+        } else {
+            // Melakukan filter
+            hasilPencarian = videoData.filter(v => 
+    (v.judul || '').toLowerCase().includes(keyword) || 
+    (v.kategori || '').toLowerCase().includes(keyword));
+            
+            // 3. Update Judul sesuai hasil
+            sectionTitle.style.display = "block";
+            if(hasilPencarian.length > 0) {
+                titleText.textContent = "Search results for: \"" + keywordInput + "\"";
+            } else {
+                titleText.textContent = "No results found for: \"" + keywordInput + "\"";
+            }
+        }
+        
+        halamanSekarang = 1;
+        tampilkanPagination();
+        tampilkanGrid();
+        
+   // 👇 SELIPKAN KODE BARU INI DI SINI BRO 👇
+        history.pushState({ 
+            view: 'grid', 
+            page: 1, 
+            category: kategoriAktif, 
+            search: keywordInput,
+            scrollY: 0 
+        }, "");
+        // 👆 --------------------------------- 👆
+
+    }, 300);
+}
+
+        // --- Fungsi Pengarah Klik ke Player & System Pop Under Iklan ---
+function arahkanKeLink(video) {
+    if (isEditMode) return;
+
+    // 1. Rekam posisi scroll (Tetap amankan variabel global ini)
+    posisiScrollTerakhir = window.scrollY;
+
+    // 👇 UBAH & TAMBAHKAN BAGIAN KODE HISTORY DI SINI BRO 👇
+    
+    // Kunci data halaman, kategori, pencarian, dan scroll saat ini sebelum ditinggalkan
+    history.replaceState({ 
+        view: 'grid', 
+        page: halamanSekarang, 
+        category: kategoriAktif, 
+        search: document.getElementById('searchInput').value,
+        scrollY: posisiScrollTerakhir 
+    }, "");
+
+    // Rekam riwayat baru khusus untuk halaman player (nonton video)
+    history.pushState({ 
+        view: 'player', 
+        video: video, 
+        page: halamanSekarang, 
+        category: kategoriAktif, 
+        search: document.getElementById('searchInput').value 
+    }, "", "#watch");
+
+    // 👆 -------------------------------------------------- 👆
+
+    if (typeof gtag === 'function') {
+        gtag('event', 'video_click', {
+            video_title: video.judul
+        });
+    }
+
+    document.getElementById("sectionTitle").style.display = "none";
+    document.querySelector("main").style.display = "none";
+    document.getElementById("playerPage").style.display = "block";
+    document.getElementById("playerTitle").textContent = video.judul;
+    document.getElementById("playerFrame").src = video.player || video.tujuan || "";
+    tampilkanVideoRelated();
+    window.scrollTo(0, 0); 
+}
+
+        // --- Master Otak Pendeteksi Tombol Back Bawaan HP ---
+window.addEventListener("popstate", function(event) {
+    if (!event.state) return;
+
+    const state = event.state;
+
+    // 1. Kembalikan semua data variabel global ke masa lalu
+    halamanSekarang = state.page || 1;
+    kategoriAktif = state.category || "HOME";
+    const keyword = state.search || "";
+    document.getElementById('searchInput').value = keyword;
+
+    // 2. Bangun kembali filter pencarian berdasarkan riwayat
+    if (keyword.trim() === '') {
+        hasilPencarian = null;
+        if (kategoriAktif === "HOME") {
+            document.getElementById("sectionTitle").style.display = "block";
+            document.getElementById("sectionTitle").querySelector("h2").textContent = "Viral Porn, Indonesian Porn, Western Porn, and Porn JAV.";
+        } else {
+            document.getElementById("sectionTitle").style.display = "none";
+        }
+    } else {
+        hasilPencarian = videoData.filter(v => (v.judul || '').toLowerCase().includes(keyword.toLowerCase().trim()));
+        document.getElementById("sectionTitle").style.display = "block";
+        document.getElementById("sectionTitle").querySelector("h2").textContent = hasilPencarian.length > 0 ? "Search results for: \"" + keyword + "\"" : "No results found for: \"" + keyword + "\"";
+    }
+
+    // 3. Atur Tampilan Layar (Apakah harus buka Video Player atau Grid Utama)
+    if (state.view === 'player') {
+        document.getElementById("sectionTitle").style.display = "none";
+        document.querySelector("main").style.display = "none";
+        document.getElementById("playerPage").style.display = "block";
+        document.getElementById("playerTitle").textContent = state.video.judul;
+        document.getElementById("playerFrame").src = state.video.player || state.video.tujuan || "";
+        tampilkanVideoRelated();
+        window.scrollTo(0, 0);
+    } else {
+        document.getElementById("playerPage").style.display = "none";
+        document.querySelector("main").style.display = "block";
+        document.querySelector("nav").style.display = "flex";
+        document.getElementById("playerFrame").src = ""; // Matikan video player
+
+        // Render ulang seluruh interface
+        tampilkanHeader();
+        tampilkanMenu();
+        tampilkanPagination();
+        tampilkanGrid();
+
+        // Lompat ke posisi scroll yang tepat
+        if (state.scrollY !== undefined) {
+            window.scrollTo(0, state.scrollY);
+        } else {
+            window.scrollTo(0, 0);
+        }
+    }
+});
+
+        function bukaMenu(url) { window.open(url, "_blank"); }
+
+
+        // --- Fungsi Render Tampilan Header ---
+        function tampilkanHeader() {
+            if (isEditMode) {
+                wadahLogo.innerHTML = `<div class="edit-block" style="flex-direction: row; gap: 5px; align-items: center;">
+                    <input type="text" class="edit-sm-input" id="input-header-text" value="${headerData.text}" style="width: 150px; font-weight: bold; font-style: italic;">
+                    <input type="text" class="edit-sm-input edit-sm-link" id="input-header-link" value="${headerData.link}" placeholder="Link Redirect" style="width: 150px;">
+                </div>`;
+            } else {
+                wadahLogo.innerHTML = `<a href="${headerData.link}"><img src="https://res.cloudinary.com/drtbkd5lr/image/upload/v1783158316/1000040907-removebg-preview_a8uua1.png" alt="Logo" style="height:auto; width:150px;"></a>`;
+            }
+        }
+
+        // --- Fungsi Render Tampilan Menu Navigasi Kategori ---
+        function tampilkanMenu() {
+            wadahMenu.innerHTML = `<a href="javascript:void(0)" class="active" onclick="kembaliKeHome()">All Videos</a>`;
+            menuData.forEach((menu, index) => {
+                if (isEditMode) {
+                    wadahMenu.innerHTML += `<div class="edit-block"><input type="text" class="edit-sm-input" id="input-menu-text-${index}" value="${menu.text}"><input type="text" class="edit-sm-input edit-sm-link" id="input-menu-link-${index}" value="${menu.link}" placeholder="Link"></div>`;
+                   } else {
+                  wadahMenu.innerHTML += `<a href="javascript:void(0)" onclick="window.open('${menu.link}', '_blank'); filterKategori('${menu.text}')">${menu.text}</a>`;
+                 }
+            });
+        }
+
+        // --- Fungsi Render Sistem Pagination Konten ---
+function tampilkanPagination() {
+    if (isEditMode) { wadahPag.innerHTML=''; return; }
+    wadahPag.innerHTML = '';
+    
+    let dataAktif = videoData;
+    if(kategoriAktif!=="HOME"){dataAktif=dataAktif.filter(v=>(v.kategori||"")==kategoriAktif);}
+    if(hasilPencarian){dataAktif=hasilPencarian;}
+
+    // Hitung total halaman
+    const totalHalaman = Math.ceil(dataAktif.length / videoPerHalaman);
+
+    // --- LOGIKA BARU: Jika video 0 atau hanya 1 halaman, sembunyikan pagination ---
+    if (dataAktif.length === 0 || totalHalaman <= 1) {
+        return; // Tidak ada tombol yang dirender
+    }
+    // -----------------------------------------------------------------------------
+
+    // Render tombol pagination jika total halaman lebih dari 1
+    if(halamanSekarang > 1){ wadahPag.innerHTML += `<button onclick="gantiHalaman(${halamanSekarang-1})">Prev</button>`; }
+    wadahPag.innerHTML += `<button class="${halamanSekarang===1?'active':''}" onclick="gantiHalaman(1)">1</button>`;
+
+    let start = Math.max(2, halamanSekarang - 2);
+    let end = Math.min(totalHalaman - 1, halamanSekarang + 2);
+    
+    if(start > 2){ wadahPag.innerHTML += `<button disabled>...</button>`; }
+
+    for(let i=start;i<=end;i++){
+        wadahPag.innerHTML += `<button class="${i===halamanSekarang?'active':''}" onclick="gantiHalaman(${i})">${i}</button>`;
+    }
+    
+    if(end < totalHalaman - 1){ wadahPag.innerHTML += `<button disabled>...</button>`; }
+    if(totalHalaman > 1){ wadahPag.innerHTML += `<button class="${halamanSekarang===totalHalaman?'active':''}" onclick="gantiHalaman(${totalHalaman})">${totalHalaman}</button>`; }
+    if(halamanSekarang < totalHalaman){ wadahPag.innerHTML += `<button onclick="gantiHalaman(${halamanSekarang+1})">Next</button>`; }
+    if(totalHalaman > 1){ wadahPag.innerHTML += `<button onclick="gantiHalaman(${totalHalaman})">Last</button>`; }
+}
+
+        // --- Fungsi Render Tampilan Grid Video Utama (OPTIMIZED: DocumentFragment & True Lazy Loading) ---
+function tampilkanGrid() {
+    wadahVideo.innerHTML = "";
+    const mulai = (halamanSekarang - 1) * videoPerHalaman;
+    const akhir = mulai + videoPerHalaman;
+    let dataAktif = videoData;
+    
+    if(kategoriAktif!=="HOME"){dataAktif=dataAktif.filter(v=>(v.kategori||"")==kategoriAktif);}
+    if(hasilPencarian){dataAktif=hasilPencarian;}
+
+    // --- TAMPILAN MODERN JIKA KOSONG (BAHASA INGGRIS) ---
+    if (dataAktif.length === 0) {
+        wadahVideo.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: transparent; margin-top: 10px;">
+                <i class="fa-solid fa-magnifying-glass-minus" style="font-size: 50px; color: #ff5c8a; margin-bottom: 15px;"></i>
+                <h3 style="color: #eee; font-size: 18px; margin-bottom: 8px;">Oops, Video Not Found</h3>
+                <p style="color: #888; font-size: 13px;">We couldn't find any videos matching your search. Try using different keywords.</p>
+            </div>`;
+        return; // Hentikan fungsi di sini agar tidak merender grid error
+    }
+    // -----------------------------------------------------------
+
+    // Menggunakan DocumentFragment agar proses render DOM hanya 1x (Super enteng walau ribuan video)
+    const fragment = document.createDocumentFragment();
+
+    dataAktif.slice(mulai, akhir).forEach((video, idx) => {
+        const index = mulai + idx;
+        const srcGambar = video.gambar ? video.gambar : "https://via.placeholder.com/640x360/000000/333333?text=No+Image";
+
+        const card = document.createElement('div');
+        card.className = `video-card ${isEditMode ? 'editing' : ''}`;
+        card.id = `card-${index}`;
+        if (!isEditMode) {
+            card.onclick = () => arahkanKeLink((hasilPencarian || dataAktif)[index]);
+        }
+
+        card.innerHTML = `
+            <div class="thumbnail">
+                <!-- Menggunakan SVG transparan bawaan sebagai placeholder sebelum gambar di-scroll -->
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3C/svg%3E" data-src="${srcGambar}" alt="${video.judul}" class="lazy-thumb">
+                <div class="overlay-stats">
+                    <span><i class="fa-solid fa-eye"></i> ${video.views}</span>
+                    <span><i class="fa-regular fa-clock"></i> ${video.durasi}</span>
+                </div>
+                <div class="edit-overlay" onclick="event.stopPropagation(); gantiGambarURL(${index})">🔗 Link Gambar</div>
+            </div>
+            <div class="info" onclick="if(isEditMode) event.stopPropagation();">
+                <div class="likes"></div>
+                <div class="title">${video.judul}</div>
+                <input type="text" class="edit-input-title" id="input-judul-${index}" value="${video.judul}">
+                <input type="text" class="edit-input-link" id="input-player-${index}" value="${video.tujuan || video.player || ""}" placeholder="Link Embed Player">
+                <input type="text" class="edit-input-title" id="input-view-${index}" value="${video.views}" placeholder="Views">
+                <input type="text" class="edit-input-title" id="input-durasi-${index}" value="${video.durasi}" placeholder="Durasi">
+                <input type="text" class="edit-input-title" id="input-kategori-${index}" value="${video.kategori || ""}" placeholder="Kategori">
+            </div>`;
+        
+        fragment.appendChild(card);
+    });
+
+    wadahVideo.appendChild(fragment);
+    aktifkanLazyLoading(); // Jalankan mesin pengamat sensor gulir layar (Intersection Observer)
+}
+
+        // --- Fungsi Render Rekomendasi Video Di Bawah Player (OPTIMIZED: True Lazy Loading) ---
+        function tampilkanVideoRelated() {
+            const wadahRelated = document.getElementById("tempat-video-related");
+            wadahRelated.innerHTML = "";
+            if(videoData.length === 0) return;
+            
+            const fragment = document.createDocumentFragment();
+            let videoAcak = [...videoData].sort(() => 0.5 - Math.random()).slice(0, 14);
+            
+            videoAcak.forEach((video) => {
+                const srcGambar = video.gambar ? video.gambar : "https://via.placeholder.com/640x360/000000/333333?text=No+Image";
+                const indexAsli = videoData.findIndex(v => v.judul === video.judul && v.tujuan === video.tujuan);
+                
+                const card = document.createElement('div');
+                card.className = "video-card";
+                card.onclick = () => arahkanKeLink(videoData[indexAsli]);
+                
+                card.innerHTML = `
+                    <div class="thumbnail">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3C/svg%3E" data-src="${srcGambar}" alt="${video.judul}" class="lazy-thumb">
+                        <div class="overlay-stats">
+                            <span><i class="fa-solid fa-eye"></i> ${video.views}</span>
+                            <span><i class="fa-regular fa-clock"></i> ${video.durasi}</span>
+                        </div>
+                    </div>
+                    <div class="info"><div class="title">${video.judul}</div></div>`;
+                
+                fragment.appendChild(card);
+            });
+            
+            wadahRelated.appendChild(fragment);
+            aktifkanLazyLoading();
+        }
+
+        // --- Fungsi Sistem Inti True Lazy Loading (Intersection Observer API) ---
+        let lazyObserver;
+
+        function aktifkanLazyLoading() {
+
+        if (lazyObserver) {
+        lazyObserver.disconnect();
+      }
+
+        lazyObserver = new IntersectionObserver((entries) => {
+
+        entries.forEach(entry => {
+
+            if (!entry.isIntersecting) return;
+
+            const img = entry.target;
+
+            if (!img.dataset.src) {
+                lazyObserver.unobserve(img);
+                return;
+            }
+
+            img.src = img.dataset.src;
+
+            img.onload = () => {
+                img.removeAttribute("data-src");
+                img.dataset.loaded = "true";
+            };
+
+            img.onerror = () => {
+                img.removeAttribute("data-src");
+            };
+
+            lazyObserver.unobserve(img);
+
+             });
+
+          }, {
+              root: null,
+              rootMargin: "300px 0px",
+              threshold: 0.01
+          });
+
+          document.querySelectorAll(".lazy-thumb[data-src]").forEach(img => {
+            lazyObserver.observe(img);
+          });
+
+      }
+
+        // --- Fungsi Mengubah Mode Web Menjadi Mode Edit ---
+        function toggleEditMode() {
+            isEditMode = true;
+            document.getElementById("btnEdit").style.display = "none";
+            document.getElementById("btnSimpan").style.display = "block";
+            document.getElementById("btnDownload").style.display = "block";
+            tampilkanHeader(); tampilkanGrid(); tampilkanMenu(); tampilkanPagination();
+        }
+
+        // --- Fungsi Menyimpan Semua Hasil Ketikan Edit Sementara ---
+        function simpanPerubahan(tanpaNotif = false) {
+            const dataTarget = hasilPencarian || videoData;
+            const mulai = (halamanSekarang - 1) * videoPerHalaman;
+            const akhir = mulai + videoPerHalaman;
+
+            // 1. Simpan editan video
+            dataTarget.slice(mulai, akhir).forEach((v, idx) => {
+                const i = mulai + idx;
+                if(document.getElementById(`input-judul-${i}`)) {
+                    v.judul = document.getElementById(`input-judul-${i}`).value;
+                    v.tujuan = document.getElementById(`input-player-${i}`).value || "#";
+                    v.views = document.getElementById(`input-view-${i}`).value;
+                    v.durasi = document.getElementById(`input-durasi-${i}`).value;
+                    v.kategori = document.getElementById(`input-kategori-${i}`).value;
+                }
+            });
+
+            // 2. Simpan editan menu ke memori lokal biar gak berantakan
+            menuData.forEach((menu, index) => {
+                if(document.getElementById(`input-menu-text-${index}`)) {
+                    menu.text = document.getElementById(`input-menu-text-${index}`).value;
+                    menu.link = document.getElementById(`input-menu-link-${index}`).value;
+                }
+            });
+
+            // 3. Rekam ke LocalStorage
+            localStorage.setItem('dataHeaderLokal', JSON.stringify(headerData));
+            localStorage.setItem('dataVideoLokal', JSON.stringify(videoData));
+            localStorage.setItem('dataMenuObjLokal', JSON.stringify(menuData));
+            localStorage.setItem('dataPagLokal', JSON.stringify(pagData));
+            
+            isEditMode = false;
+            document.getElementById("btnEdit").style.display = "block";
+            document.getElementById("btnSimpan").style.display = "none";
+            document.getElementById("btnDownload").style.display = "none";
+            
+            // Render ulang tampilan biar rapi
+            tampilkanHeader(); tampilkanGrid(); tampilkanMenu(); tampilkanPagination();
+            
+            if (!tanpaNotif) {
+                alert("Data tersimpan sementara!");
+            }
+        }
+
+        // --- Fungsi Klik Ubah Link Gambar Gambar ---
+        function gantiGambarURL(i) {
+            const dataTarget = hasilPencarian || videoData;
+            let u = prompt("LINK GAMBAR:", dataTarget[i].gambar);
+            if (u) { dataTarget[i].gambar = u; tampilkanGrid(); }
+        }
+
+        // --- Fungsi Tombol Manajemen Tambah Video ---
+        function tambahVideo() {
+            videoData.unshift({
+                gambar: "",
+                judul: "",
+                tujuan: "",
+                views: "",
+                durasi: "",
+                kategori: ""
+            });
+            tampilkanPagination();
+            tampilkanGrid();
+        }
+
+        // --- Fungsi Tombol Manajemen Hapus Video ---
+        function hapusVideo() {
+            if(videoData.length > 0){ 
+                videoData.shift(); 
+                tampilkanPagination();
+                tampilkanGrid(); 
+            }
+        }
+
+        // --- Fungsi Ekspor HTML / Merakit Code Menjadi File index.html Siap Sebar ---
+        function downloadWebFinal() {
+            // 1. Pastikan perubahan tersimpan ke LocalStorage dulu tanpa alert ganda
+            simpanPerubahan(true); 
+
+            // 2. Convert HANYA data video ke format teks JSON
+            const jsonString = JSON.stringify(videoData, null, 2);
+
+            // 3. Proses membuat file dan mengunduhnya
+            const blob = new Blob([jsonString], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "database.json"; 
+            a.click();
+            
+            // 4. Bersihkan memori dan tampilkan notifikasi
+            URL.revokeObjectURL(url);
+            alert("Berhasil! File database.json siap diupload.");
+        }
+
+      // --- Fungsi Menjemput Data JSON dari Server (Versi Anti-Cache) ---
+async function muatDataAwal() {
+    // 1. Tampilkan Logo/Header di awal
+    tampilkanHeader(); 
+    
+    try {
+        const versiAntiCache = new Date().getTime();
+        const response = await fetch('database.json?v=' + versiAntiCache);
+        
+        if (!response.ok) throw new Error("Gagal mengambil data");
+
+        const dataVideoDariServer = await response.json();
+        videoData = dataVideoDariServer;
+
+        // 2. KEMBALIKAN SEMUA KE TAMPILAN NORMAL JIKA SUKSES
+        document.querySelector(".search-box").style.display = "flex";
+        document.querySelector("nav").style.display = "flex";
+        document.querySelector("header").style.justifyContent = "space-between";
+        
+        // Kembalikan isi Footer menjadi utuh lagi
+        const footer = document.querySelector("footer");
+        footer.style.display = "block";
+        footer.style.padding = ""; // Reset padding
+        
+        // Munculkan kembali semua anak di dalam footer (termasuk tulisan panjangnya)
+        const isiFooter = footer.children;
+        for (let i = 0; i < isiFooter.length; i++) {
+            isiFooter[i].style.display = "block";
+        }
+        document.querySelector(".footer-links").style.display = "flex"; // Khusus link pakai flex
+        
+        // Hapus gaya peringatan tengah
+        const wadahVid = document.getElementById("tempat-video");
+        wadahVid.style.display = ""; 
+        wadahVid.style.flexDirection = "";
+        wadahVid.style.alignItems = "";
+        wadahVid.style.justifyContent = "";
+        wadahVid.style.minHeight = "";
+        
+        tampilkanMenu();
+        tampilkanPagination(); 
+        tampilkanGrid();
+        
+        history.replaceState({ view: 'grid', page: 1, category: 'HOME', search: '', scrollY: 0 }, "");
+
+    } catch (error) {
+        console.error("Waduh, gagal muat JSON:", error);
+        
+        // 3. JIKA ERROR: Sembunyikan Kotak Search, Menu, & Judul
+        document.querySelector(".search-box").style.display = "none";
+        document.querySelector("nav").style.display = "none";
+        document.getElementById("sectionTitle").style.display = "none";
+        
+        // 4. Header Logo pindah ke tengah
+        document.querySelector("header").style.justifyContent = "center";
+        
+        // 5. MANIPULASI FOOTER (Super Paten)
+        const footer = document.querySelector("footer");
+        footer.style.display = "block"; 
+        footer.style.padding = "15px 20px"; // Kecilkan bantalan agar lebih tipis
+        
+        // Sembunyikan SEMUA elemen di dalam footer (termasuk tulisan panjangnya)
+        const isiFooter = footer.children;
+        for (let i = 0; i < isiFooter.length; i++) {
+            isiFooter[i].style.display = "none";
+        }
+        // Munculkan HANYA tulisan yang paling bawah (Copyright 2026 ZoneXhub)
+        isiFooter[isiFooter.length - 1].style.display = "block";
+        
+        // 6. PERINGATAN TENGAH LAYAR
+        const wadahVid = document.getElementById("tempat-video");
+        wadahVid.style.display = "flex";
+        wadahVid.style.flexDirection = "column";
+        wadahVid.style.alignItems = "center";
+        wadahVid.style.justifyContent = "center";
+        wadahVid.style.minHeight = "70vh"; 
+        
+        wadahVid.innerHTML = `
+            <div style="text-align: center;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size: 45px; color: red; margin-bottom: 12px;"></i>
+                <h3 style="color: red; font-size: 18px; margin-bottom: 8px;">ERROR!</h3>
+                <p style="color: red; font-size: 12px;">Failed to load video data.</p>
+            </div>
+        `;
+    }
+}
+muatDataAwal();
+    </script>
+</body>
+</html>
