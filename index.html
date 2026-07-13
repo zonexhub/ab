@@ -45,8 +45,9 @@
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: var(--bg-header); }
         .logo { font-size: 26px; font-weight: bold; font-style: italic; color: #ff5c8a; cursor: pointer; user-select: none; display: inline-block; transition: opacity 0.2s;}
         .logo:hover { opacity: 0.8; }
-        .search-box { display: flex; background: #111; border-radius: 100px; overflow: hidden; border: 1px solid #333; }
+        .search-box { display: flex; background: #1a1a1a; border-radius: 100px; overflow: hidden; border: 1.3px solid #444; }
         .search-box input { background: transparent; border: none; padding: 10px 12px; color: white; width: 298px; outline: none; font-size: 14px; }
+        .search-box input::placeholder {  color: #cccccc; /* Warna abu-abu terang */  opacity: 1;   /* Memaksa browser agar tidak meredupkan teksnya */  }
         .search-box button { background: var(--accent-color); border: none; padding: 10px 17px; color: white; cursor: pointer; }
 
 
@@ -69,20 +70,23 @@
        }
 
          nav a { 
-      /* Trik "Sejajar" di HP: Tombol otomatis membagi ruang layar sama besar */
          flex: 1; 
          text-align: center;
          display: flex;
          justify-content: center;
-  
-       /* Ukuran font & padding dikecilkan sedikit khusus HP agar tidak nabrak */
-        padding: 8px 2px; 
-        font-size: 12px; 
-        font-weight: bold; 
-        transition: background 0.2s; 
-        color: #ddd; 
-        border-radius: 100px; 
-        border: 1px solid #444; 
+         padding: 7px 2px; 
+         font-size: 13px; 
+         
+         /* --- TRIK BIAR 12PX TAPI TEBAL & MENONJOL --- */
+         font-weight: 900; 
+         letter-spacing: 0.5px; 
+         text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5); 
+         color: #eee; 
+         /* ------------------------------------------- */
+
+         transition: background 0.2s; 
+         border-radius: 100px; 
+         border: 1.5px solid #444; 
       }
 
         nav a.active, nav a:hover { 
@@ -119,8 +123,15 @@
         display: flex;
        align-items: center;
         /* Format margin: Atas Kanan Bawah Kiri */
-        margin: 10px 18px 2px 18px; /* Margin bawah dikecilkan jadi 4px */
+        margin: 15px  18px 15px  18px; /* Margin bawah dikecilkan jadi 4px */
         background-color: transparent;
+        
+        /* Khusus Layar Desktop: Tambah Padding Kiri di Judul Header */
+       @media (min-width: 769px) {
+       .section-header {
+        padding-left: 30px; /* Ganti angka 20px ini sesuai jarak yang kamu mau */
+      }
+ }
   
          /* Hilangkan border (garis) dan padding sepenuhnya */
         border: none;
@@ -141,8 +152,9 @@
         .video-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 8px; }
         .video-card {
          background: #262626;
-         border: 1px solid #333;
+         border: 1.3px solid #444;
          overflow: hidden;
+         border-radius: 3px;
          position: relative;
          cursor: pointer;
          transition: transform .2s, box-shadow .2s;
@@ -340,12 +352,12 @@
         }
 
         .section-related {
-         background: #262626;
-         padding: 10px 10px;
-         border-left: 5px solid var(--accent-color);
-         margin-bottom: 18px;
+         background: transparent;
+         padding: 0px 10px; /* Angka 2px bikin garis lebih pendek */
+         border-left: 4px solid var(--accent-color);
+         margin-bottom: 16px;
        }
-      .section-related h2 { font-size: 16px; font-weight: bold; color: #eee; } 
+      .section-related h2 { font-size: 17px; font-weight: 900; color: #eee; } 
       
        @media (min-width: 769px) {
        #playerPage {
@@ -362,7 +374,7 @@
 }
         .hot-video {
         color: white;              /* Warna teks */
-        font-size: 16px;           /* Ukuran font */
+        font-size: 17px;           /* Ukuran font */
         font-weight: bold;         /* Ketebalan font */
         margin: 10px 0 10px 10px;  /* Jarak atas, kanan, bawah, kiri */
         display: flex;             /* Agar teks dan ikon sejajar */
@@ -371,8 +383,16 @@
       }
 
        .hot-video i {
-        color: #007bff;            /* Warna biru ikon bumi */
-        font-size: 12px;           /* Ukuran ikon agar proporsional */
+       font-size: 16px; /* Ukuran pas biar detail apinya kelihatan */
+       display: inline-block;
+ 
+   /* Trik gradasi api beneran (Merah ke Oranye) */
+       background: linear-gradient(0deg, #ff1e00 0%, #ff9100 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+ 
+      /* Efek glow tipis biar apinya terkesan menyala */
+        filter: drop-shadow(0 0 2px rgba(255, 30, 0, 0.4)); 
       }
       
         /* --- Desain Responsif Mobile / Tablet --- */
@@ -388,7 +408,7 @@
          =================================================== -->
     <script id="data-situs">
         window.DATA_HEADER = {"text":"ZoneXhub.net","link":"https://ZoneXhub.net"};
-        window.DATA_MENU = [{"text":"Indonesia","link":"iklan"},{"text":"Jav","link":"iklan"},{"text":"Western","link":"iklan"}];
+        window.DATA_MENU = [{"text":"Indonesia","link":"https:google.com"},{"text":"Jav","link":"iklan"},{"text":"Western","link":"iklan"}];
         window.DATA_VIDEO = [];
     </script>
     <!-- TEMPEL DI BAWAH SINI IKLAN ADSTERA -->
@@ -413,7 +433,7 @@
 
     <!-- JUDUL RELATED VIDEO ) -->
        <div class="section-header" id="sectionTitle">
-    <h2>Viral Porn, Indonesian Porn, Western Porn, and Porn JAV.</h2>
+    <h2>Most Popular & Viral Porn Video Collection: Indo, JAV, and Western.</h2>
           </div>
           
     <!-- Konten Utama (Grid Video & Pagination) -->
@@ -421,7 +441,7 @@
         
         <!-- KOTAK IKLAN BANNER TIPIS HALAMAN UTAMA -->
         <!-- Padding diubah jadi 8px dan margin bawah dirapatkan jadi 20px -->
-        <div id="home-banner" style="margin: 10px 0 20px 0; padding: 8px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
+        <div id="home-banner" style="margin: 0 0 20px 0; padding: 8px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
             <span style="display: block; font-size: 10px; color: #777; margin-bottom: 5px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>
             
             <!-- Tempel Kode Script Banner Adsterra di BawahSini -->
@@ -438,9 +458,9 @@
         </div>
         
            <!-- HOT VIDEO -->
-         <div id="hot-video-text" class="hot-video">
-           Hot Porn Videos <i class="fa-solid fa-earth-americas"></i>
-         </div>
+        <div id="hot-video-text" class="hot-video">
+          Hot Porn Videos <i class="fa-solid fa-fire"></i>
+       </div>
          
         <!-- Wadah Grid Video -->
         <div class="video-grid" id="tempat-video"></div>
@@ -501,7 +521,7 @@
         </div>
         
         <!-- 1. KOTAK BARU (TERLIHAT): KHUSUS UNTUK BANNER 300x250 + TULISAN -->
-        <div style="margin: 30px 0 40px 0; padding: 15px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: block;">
+        <div style="margin: 30px 0 35px 0; padding: 15px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: block;">
             <span style="display: block; font-size: 10px; color: #777; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>
             
             <script>
@@ -633,17 +653,24 @@ function bukaKunciRahasia() {
         else if(catLower.includes("jav")) flag = "🇯🇵";
         else if(catLower.includes("western")) flag = "🇺🇸";
         
-        hotVideoEl.innerHTML = `Categories ${kategori} ${flag}`;
+        hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategori}</span> ${flag}`;
     } else {
+        // Tampilkan kembali section judul
         document.getElementById("sectionTitle").style.display = "block";
+        
+        // PERBAIKAN: Kembalikan teks h2 ke judul original homepage
+        document.getElementById("sectionTitle").querySelector("h2").textContent = "Most Popular & Viral Porn Video Collection: Indo, JAV, and Western.";
+        
         document.getElementById("home-banner").style.display = "flex";
         
         hotVideoEl.style.display = "flex";
-        hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-earth-americas"></i>`;
+        hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-fire"></i>`;
     }
 
-    document.getElementById("searchInput").value="";
-    halamanSekarang=1;
+    // Pastikan kotak pencarian dikosongkan
+    document.getElementById("searchInput").value = "";
+    
+    halamanSekarang = 1;
     tampilkanPagination();
     tampilkanGrid();
 
@@ -708,11 +735,11 @@ function cariVideo(event){
             
             if (kategoriAktif === "HOME") {
                 sectionTitle.style.display = "block";
-                titleText.textContent = "Viral Porn, Indonesian Porn, Western Porn, and Porn JAV.";
+                titleText.textContent = "Most Popular & Viral Porn Video Collection: Indo, JAV, and Western.";
                 document.getElementById("home-banner").style.display = "flex";
                 
                 hotVideoEl.style.display = "flex";
-                hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-earth-americas"></i>`;
+                hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-fire"></i>`;
             } else {
                 sectionTitle.style.display = "none";
                 document.getElementById("home-banner").style.display = "none";
@@ -723,7 +750,7 @@ function cariVideo(event){
                 if(catLower.includes("indonesia")) flag = "🇮🇩";
                 else if(catLower.includes("jav")) flag = "🇯🇵";
                 else if(catLower.includes("western")) flag = "🇺🇸";
-                hotVideoEl.innerHTML = `Categories ${kategoriAktif} ${flag}`;
+                hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
             }
         } else {
             // Melakukan filter
@@ -855,7 +882,7 @@ window.addEventListener("popstate", function(event) {
             document.getElementById("home-banner").style.display = "flex";
             
             hotVideoEl.style.display = "flex";
-            hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-earth-americas"></i>`;
+            hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-fire"></i>`;
         } else {
             document.getElementById("sectionTitle").style.display = "none";
             document.getElementById("home-banner").style.display = "none";
@@ -866,7 +893,7 @@ window.addEventListener("popstate", function(event) {
             if(catLower.includes("indonesia")) flag = "🇮🇩";
             else if(catLower.includes("jav")) flag = "🇯🇵";
             else if(catLower.includes("western")) flag = "🇺🇸";
-            hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategori}</span> ${flag}`;
+            hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
         }
     } else {
         hasilPencarian = videoData.filter(v => (v.judul || '').toLowerCase().includes(keyword.toLowerCase().trim()));
