@@ -833,9 +833,9 @@ function cariVideo(event){
             document.getElementById("tombol-telegram").style.display = "none";
             
             if(hasilPencarian.length > 0) {
-                titleText.textContent = "Search results for : \"" + keywordInput + "\"";
+                titleText.innerHTML = `Search results for : <span style="color: var(--accent-color); font-style: italic;">"${keywordInput}"</span>`;
             } else {
-                titleText.textContent = "No results found for : \"" + keywordInput + "\"";
+                titleText.innerHTML = `No results found for : <span style="color: var(--accent-color); font-style: italic;">"${keywordInput}"</span>`;
             }
         }
         
@@ -972,7 +972,12 @@ window.addEventListener("popstate", function(event) {
     } else {
         hasilPencarian = videoData.filter(v => (v.judul || '').toLowerCase().includes(keyword.toLowerCase().trim()));
         document.getElementById("sectionTitle").style.display = "block";
-        document.getElementById("sectionTitle").querySelector("h2").textContent = hasilPencarian.length > 0 ? "Search results for: \"" + keyword + "\"" : "No results found for: \"" + keyword + "\"";
+        
+        // --- KODE BARU UNTUK WARNA PINK DAN MIRING DI TOMBOL BACK ---
+        document.getElementById("sectionTitle").querySelector("h2").innerHTML = hasilPencarian.length > 0 
+            ? `Search results for: <span style="color: var(--accent-color); font-style: italic;">"${keyword}"</span>` 
+            : `No results found for: <span style="color: var(--accent-color); font-style: italic;">"${keyword}"</span>`;
+            
         document.getElementById("home-banner").style.display = "none";
         hotVideoEl.style.display = "none";
         
