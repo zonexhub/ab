@@ -435,12 +435,13 @@
       }
       
       /* Gaya tambahan khusus bendera library */
-        .fi {
-            font-size: 14px; /* Mengatur besar bendera */
-            border-radius: 2px; /* Biar sudut bendera agak melengkung estetik */
-            margin-left: 3px; /* Memberi jarak tipis dari teks */
-            vertical-align: middle; /* Biar posisinya pas di tengah teks */
-        }
+       .fi {
+        font-size: 13px; 
+        border-radius: 2px; 
+        margin-left: 3px; /* Sedikit ditambah agar saat miring tidak menabrak teks */
+        vertical-align: middle; 
+        transform: skewX(-15deg); /* Tambahan baris ini untuk memiringkan bendera */
+      }
       
         /* --- Desain Responsif Mobile / Tablet --- */
         @media (max-width: 1024px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
