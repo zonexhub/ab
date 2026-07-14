@@ -455,10 +455,17 @@
          3. DATA ASLI MASTER SITUS (DATABASE VALUE)
          =================================================== -->
     <script id="data-situs">
-        window.DATA_HEADER = {"text":"ZoneXhub.net","link":"https://ZoneXhub.net"};
-        window.DATA_MENU = [{"text":"Indonesia","link":"https:google.com"},{"text":"Jav","link":"iklan"},{"text":"Western","link":"iklan"}];
-        window.DATA_VIDEO = [];
-    </script>
+    window.DATA_HEADER = {"text":"ZoneXhub.net","link":"https://ZoneXhub.net"};
+    
+    // GANTI DI SINI BRO 👇
+    window.DATA_MENU = [
+        {"text":"Indonesia", "link":"https://link-direct-ads-lo-disini.com"},
+        {"text":"Jav",       "link":"https://link-direct-ads-lo-disini.com"},
+        {"text":"Western",   "link":"https://link-direct-ads-lo-disini.com"}
+    ];
+    
+    window.DATA_VIDEO = [];
+</script>
     <!-- TEMPEL DI BAWAH SINI IKLAN ADSTERA -->
 </head>
 <body>
@@ -1066,7 +1073,7 @@ window.addEventListener("popstate", function(event) {
                 if (isEditMode) {
                     wadahMenu.innerHTML += `<div class="edit-block"><input type="text" class="edit-sm-input" id="input-menu-text-${index}" value="${menu.text}"><input type="text" class="edit-sm-input edit-sm-link" id="input-menu-link-${index}" value="${menu.link}" placeholder="Link"></div>`;
                    } else {
-                  wadahMenu.innerHTML += `<a href="javascript:void(0)" onclick="window.open('${menu.link}', '_blank'); filterKategori('${menu.text}')">${menu.text}</a>`;
+                  wadahMenu.innerHTML += `<a href="javascript:void(0)" onclick="bukaKategoriDenganIklan('${menu.link}', '${menu.text}')">${menu.text}</a>`;
                  }
             });
         }
@@ -1490,6 +1497,23 @@ async function muatDataAwal() {
             </div>
         `;
     }
+}
+
+          // --- Fungsi Buka Kategori + Batasan Iklan 10 Menit ---
+             function bukaKategoriDenganIklan(link, text) {
+             const SEKARANG = new Date().getTime();
+             const SEPULUH_MENIT = 10 * 60 * 1000; // 10 menit dalam milidetik
+             const terakhirKlik = localStorage.getItem('terakhirKlikIklan') || 0;
+
+         // Jika sudah lewat 10 menit dari klik terakhir, buka iklan
+         // Pastikan link-nya valid dan bukan "#" atau "iklan" kosong
+             if (SEKARANG - terakhirKlik > SEPULUH_MENIT && link !== "#" && link !== "") {
+             window.open(link, '_blank');
+             localStorage.setItem('terakhirKlikIklan', SEKARANG); // Catat waktu klik baru
+          }
+    
+         // Tetap pindah kategori tanpa terganggu iklan jika belum 10 menit
+            filterKategori(text);
 }
 muatDataAwal();
     </script>
