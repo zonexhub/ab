@@ -1443,10 +1443,11 @@ async function muatDataAwal() {
         document.querySelector("nav").style.display = "none";
         document.getElementById("sectionTitle").style.display = "none";
         
-        // Sembunyikan Iklan & Teks Hot Video saat Error JSON
+        // Sembunyikan Iklan, Teks Hot Video, & Tombol Telegram Bawah saat Error JSON
         if (document.getElementById("home-banner")) document.getElementById("home-banner").style.display = "none";
         if (document.getElementById("hot-video-text")) document.getElementById("hot-video-text").style.display = "none";
         if (document.getElementById("bottom-banner")) document.getElementById("bottom-banner").style.display = "none";
+        if (document.getElementById("tombol-telegram")) document.getElementById("tombol-telegram").style.display = "none";
         
         // 4. Header Logo pindah ke tengah
         document.querySelector("header").style.justifyContent = "center";
@@ -1454,14 +1455,12 @@ async function muatDataAwal() {
         // 5. MANIPULASI FOOTER (Super Paten)
         const footer = document.querySelector("footer");
         footer.style.display = "block"; 
-        footer.style.padding = "15px 20px"; // Kecilkan bantalan agar lebih tipis
+        footer.style.padding = "15px 20px";
         
-        // Sembunyikan SEMUA elemen di dalam footer (termasuk tulisan panjangnya)
         const isiFooter = footer.children;
         for (let i = 0; i < isiFooter.length; i++) {
             isiFooter[i].style.display = "none";
         }
-        // Munculkan HANYA tulisan yang paling bawah (Copyright 2026 ZoneXhub)
         isiFooter[isiFooter.length - 1].style.display = "block";
         
         // 6. PERINGATAN TENGAH LAYAR
@@ -1474,9 +1473,20 @@ async function muatDataAwal() {
         
         wadahVid.innerHTML = `
             <div style="text-align: center;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size: 45px; color: red; margin-bottom: 12px;"></i>
-                <h3 style="color: red; font-size: 18px; margin-bottom: 8px;">ERROR!</h3>
-                <p style="color: red; font-size: 12px;">Failed to load video data.</p>
+                <!-- Ikon gear berputar warna merah -->
+                <i class="fa-solid fa-gear fa-spin" style="font-size: 45px; color: red; margin-bottom: 12px;"></i>
+                
+                <!-- Tulisan UNDER MAINTENANCE warna merah -->
+                <h3 style="color: red; font-size: 18px; margin-bottom: 8px;">UNDER MAINTENANCE</h3>
+                
+                <p style="color: #888; font-size: 12px; margin-bottom: 30px;">We are currently updating our database to serve you better. Please check back soon.</p>
+                
+                <!-- Tulisan For more info warna abu-abu terang yang kalem -->
+                <p style="color: #cccccc; font-size: 13px; margin-bottom: 10px; font-weight: bold;">For more information 👇🏻</p>
+                
+                <a href="LINK_TELEGRAM_KAMU" target="_blank" style="background-color: #24A1DE; color: white; padding: 8px 16px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block; transition: 0.2s;">
+                    <i class="fab fa-telegram-plane" style="margin-right: 4px; font-size: 18px;"></i> Join Telegram Group
+                </a>
             </div>
         `;
     }
