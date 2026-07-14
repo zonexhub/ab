@@ -1376,26 +1376,36 @@ function tampilkanGrid() {
             }
         }
 
-        // --- Fungsi Ekspor HTML / Merakit Code Menjadi File index.html Siap Sebar ---
-        function downloadWebFinal() {
-            // 1. Pastikan perubahan tersimpan ke LocalStorage dulu tanpa alert ganda
-            simpanPerubahan(true); 
+       // --- Fungsi Ekspor HTML / Merakit Code Menjadi File index.html Siap Sebar ---
+         function downloadWebFinal() {
+      // 1. Pastikan perubahan tersimpan ke LocalStorage dulu tanpa alert ganda
+         simpanPerubahan(true); 
 
-            // 2. Convert HANYA data video ke format teks JSON
-            const jsonString = JSON.stringify(videoData, null, 2);
+      // 2. Convert HANYA data video ke format teks JSON
+         const jsonString = JSON.stringify(videoData, null, 2);
 
-            // 3. Proses membuat file dan mengunduhnya
-            const blob = new Blob([jsonString], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "database.json"; 
-            a.click();
-            
-            // 4. Bersihkan memori dan tampilkan notifikasi
+     // 3. Proses membuat file dan mengunduhnya
+          const blob = new Blob([jsonString], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+    
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "database.json"; 
+    
+     // Trik 1: Tempel elemen ke body secara fisik agar AdBlocker mengira ini klik manusia asli
+          document.body.appendChild(a);
+          a.click();
+    
+     // Trik 2: Hapus elemen siluman setelah sukses terpicu
+           document.body.removeChild(a);
+    
+     // Trik 3: Beri jeda 300ms (setTimeout) sebelum memori blob dihancurkan
+     // Ini krusial banget buat browser ketat seperti Brave/Firefox!
+            setTimeout(() => {
             URL.revokeObjectURL(url);
             alert("Berhasil! File database.json siap diupload.");
-        }
+     }, 300);
+}
 
       // --- Fungsi Menjemput Data JSON dari Server (Versi Anti-Cache) ---
 async function muatDataAwal() {
