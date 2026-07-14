@@ -209,7 +209,7 @@
         .overlay-stats { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 6px 6px; background: transparent; font-size: 10px; font-weight: bold; pointer-events: none; z-index: 2; text-shadow: 0 1px 3px rgba(0,0,0,.9); }
         .overlay-stats span { display: flex; align-items: center; gap: 2px; background: rgba(0, 0, 0, 0.50); padding: 2px 4px; border-radius: 3px; color: #fff; line-height: 1; }
         .overlay-stats .view, .overlay-stats .duration { font-size: 12px; display: flex; align-items: center; gap: 4px; }
-        .overlay-stats i { font-size: 8px; }
+        .overlay-stats i { font-size: 10px; }
         .info {
         padding: 3px 8px;
         background: #262626;
@@ -503,7 +503,7 @@
         <div class="pagination" id="tempat-pagination"></div>
       
         <!-- 2. Tombol Join Telegram -->
-       <div style="text-align: center; margin: 30px 0 20px 0;">
+       <div id="tombol-telegram" style="text-align: center; margin: 30px 0 20px 0;">
        <a href="LINK_TELEGRAM_KAMU" target="_blank" style="background-color: #24A1DE; color: white; padding: 6px 12px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block; transition: 0.2s;">
        <i class="fab fa-telegram-plane" style="margin-right: 4px; font-size: 18px;"></i> Join Grup Telegram
        </a>
@@ -677,7 +677,11 @@ function bukaKunciRahasia() {
     document.getElementById("playerPage").style.display = "none";
     document.querySelector("main").style.display = "block";
     document.querySelector("nav").style.display = "flex";
-
+    
+    // --- MUNCULKAN KEMBALI SAAT PINDAH MENU KATEGORI ---
+    document.getElementById("bottom-banner").style.display = "block";
+    document.getElementById("tombol-telegram").style.display = "block";
+    
     kategoriAktif = kategori;
     hasilPencarian = null;
 
@@ -774,6 +778,10 @@ function cariVideo(event){
         if(keyword === ''){
             hasilPencarian = null;
             
+                 // --- MUNCULKAN KEMBALI SAAT PENCARIAN DIHAPUS ---
+               document.getElementById("bottom-banner").style.display = "block";
+               document.getElementById("tombol-telegram").style.display = "block";
+            
             if (kategoriAktif === "HOME") {
                 sectionTitle.style.display = "block";
                 titleText.textContent = "Most Popular & Viral Porn Video Collection: Indo, JAV, and Western.";
@@ -803,6 +811,10 @@ function cariVideo(event){
             sectionTitle.style.display = "block";
             document.getElementById("home-banner").style.display = "none";
             hotVideoEl.style.display = "none";
+            
+            // --- SEMBUNYIKAN SAAT LAGI MENCARI VIDEO ---
+            document.getElementById("bottom-banner").style.display = "none";
+            document.getElementById("tombol-telegram").style.display = "none";
             
             if(hasilPencarian.length > 0) {
                 titleText.textContent = "Search results for : \"" + keywordInput + "\"";
@@ -917,6 +929,11 @@ window.addEventListener("popstate", function(event) {
     // 2. Bangun kembali filter pencarian berdasarkan riwayat
     if (keyword.trim() === '') {
         hasilPencarian = null;
+        
+        // --- MUNCULKAN KEMBALI SAAT BACK KE HOME / KATEGORI ---
+        document.getElementById("bottom-banner").style.display = "block";
+        document.getElementById("tombol-telegram").style.display = "block";
+        
         if (kategoriAktif === "HOME") {
             document.getElementById("sectionTitle").style.display = "block";
             document.getElementById("sectionTitle").querySelector("h2").textContent = "Viral Porn, Indonesian Porn, Western Porn, and Porn JAV.";
@@ -942,6 +959,10 @@ window.addEventListener("popstate", function(event) {
         document.getElementById("sectionTitle").querySelector("h2").textContent = hasilPencarian.length > 0 ? "Search results for: \"" + keyword + "\"" : "No results found for: \"" + keyword + "\"";
         document.getElementById("home-banner").style.display = "none";
         hotVideoEl.style.display = "none";
+        
+        // --- SEMBUNYIKAN ---
+        document.getElementById("bottom-banner").style.display = "none";
+        document.getElementById("tombol-telegram").style.display = "none";
     }
 
     // 3. Atur Tampilan Layar (Apakah harus buka Video Player atau Grid Utama)
