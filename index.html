@@ -29,7 +29,12 @@
     <meta name="twitter:image" content="https://res.cloudinary.com/drtbkd5lr/image/upload/v1783925933/file_000000008a9471fdb72bfc466bcc28d4_pbt9vs.png">
   
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/drtbkd5lr/image/upload/v1783925796/1000042144-removebg-preview_gljjwa.png">
+    
+    <!-- Link Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <!-- Link Flag library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
     
     <!-- ===================================================
          2. STYLE CSS (DESAIN TAMPILAN)
@@ -429,6 +434,14 @@
         filter: drop-shadow(0 0 2px rgba(255, 30, 0, 0.4)); 
       }
       
+      /* Gaya tambahan khusus bendera library */
+        .fi {
+            font-size: 15px; /* Mengatur besar bendera */
+            border-radius: 2px; /* Biar sudut bendera agak melengkung estetik */
+            margin-left: 5px; /* Memberi jarak tipis dari teks */
+            vertical-align: middle; /* Biar posisinya pas di tengah teks */
+        }
+      
         /* --- Desain Responsif Mobile / Tablet --- */
         @media (max-width: 1024px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .video-grid { grid-template-columns: repeat(2, 1fr); } header, nav, main { padding-left: 8px; padding-right: 8px; } }
@@ -710,9 +723,11 @@ function bukaKunciRahasia() {
         hotVideoEl.style.display = "flex";
         let flag = "";
         let catLower = kategori.toLowerCase();
-        if(catLower.includes("indonesia")) flag = "🇮🇩";
-        else if(catLower.includes("jav")) flag = "🇯🇵";
-        else if(catLower.includes("western")) flag = "🇺🇸";
+        
+        // LOGIKA BARU MENGGUNAKAN LIBRARY
+        if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
+        else if(catLower.includes("jav")) flag = '<span class="fi fi-jp"></span>';
+        else if(catLower.includes("western")) flag = '<span class="fi fi-us"></span>';
         
         hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategori}</span> ${flag}`;
     } else {
@@ -812,9 +827,11 @@ function cariVideo(event){
                 hotVideoEl.style.display = "flex";
                 let flag = "";
                 let catLower = kategoriAktif.toLowerCase();
-                if(catLower.includes("indonesia")) flag = "🇮🇩";
-                else if(catLower.includes("jav")) flag = "🇯🇵";
-                else if(catLower.includes("western")) flag = "🇺🇸";
+                
+                // LOGIKA BARU MENGGUNAKAN LIBRARY DI FUNGSI CARI VIDEO
+                if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
+                else if(catLower.includes("jav")) flag = '<span class="fi fi-jp"></span>';
+                else if(catLower.includes("western")) flag = '<span class="fi fi-us"></span>';
                 hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
             }
         } else {
@@ -964,9 +981,11 @@ window.addEventListener("popstate", function(event) {
             hotVideoEl.style.display = "flex";
             let flag = "";
             let catLower = kategoriAktif.toLowerCase();
-            if(catLower.includes("indonesia")) flag = "🇮🇩";
-            else if(catLower.includes("jav")) flag = "🇯🇵";
-            else if(catLower.includes("western")) flag = "🇺🇸";
+            
+            // LOGIKA BARU MENGGUNAKAN LIBRARY (UNTUK TOMBOL BACK)
+            if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
+            else if(catLower.includes("jav")) flag = '<span class="fi fi-jp"></span>';
+            else if(catLower.includes("western")) flag = '<span class="fi fi-us"></span>';
             hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
         }
     } else {
