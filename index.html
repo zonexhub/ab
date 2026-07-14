@@ -671,8 +671,7 @@
 
         // --- Init State & Membaca LocalStorage ---
         let headerData = JSON.parse(localStorage.getItem('dataHeaderLokal')) || window.DATA_HEADER;
-        let menuData = JSON.parse(localStorage.getItem('dataMenuObjLokal')) || window.DATA_MENU;
-        let pagData = JSON.parse(localStorage.getItem('dataPagLokal')) || window.DATA_PAGINATION;
+        let menuData = JSON.parse(localStorage.getItem('dataMenuObjLokal')) || window.DATA_MENU; 
         let videoData = JSON.parse(localStorage.getItem('dataVideoLokal')) || window.DATA_VIDEO;
 
         const wadahLogo = document.getElementById("tempat-logo");
@@ -1331,7 +1330,7 @@ function tampilkanGrid() {
             localStorage.setItem('dataHeaderLokal', JSON.stringify(headerData));
             localStorage.setItem('dataVideoLokal', JSON.stringify(videoData));
             localStorage.setItem('dataMenuObjLokal', JSON.stringify(menuData));
-            localStorage.setItem('dataPagLokal', JSON.stringify(pagData));
+            
             
             isEditMode = false;
             document.getElementById("btnEdit").style.display = "block";
