@@ -614,9 +614,16 @@
             
             <div id="playerInfoBlock">
                 <h2 id="playerTitle" style="margin-bottom: 4px;"></h2>
-                <div style="font-size: 13px; color: #ccc; margin-bottom: 15px;">
+                <div style="font-size: 13px; color: #ccc; margin-bottom: 8px;">
                     Categories : <span id="playerCategory" style="font-style: italic; color: var(--accent-color);"></span>
                 </div>
+                
+                <!-- 👇 TEKS INFO DOWNLOAD (POLOS TAPI COPYWRITING NENDANG) 👇 -->
+                <div style="font-size: 11px; color: #999; font-style: italic; margin-bottom: 15px;">
+                    * Malas buffering dan keganggu iklan? Download videonya langsung di bawah, jaminan anti ribet!
+                </div>
+                
+               
                 <!-- Tambahkan flex-wrap: nowrap agar dipaksa sejajar 1 baris -->
                         <div class="player-meta-row" style="flex-wrap: nowrap; gap: 5px; overflow-x: auto;">
                     <div class="player-stats" style="gap: 10px; flex-shrink: 0;">
@@ -1209,6 +1216,39 @@ function tampilkanGrid() {
     
     if(kategoriAktif!=="HOME"){dataAktif=dataAktif.filter(v=>(v.kategori||"")==kategoriAktif);}
     if(hasilPencarian){dataAktif=hasilPencarian;}
+    
+    // 👇 SELIPKAN KODE INI DI SINI 👇
+    const homeBannerEl = document.getElementById("home-banner");
+    const hotVideoEl = document.getElementById("hot-video-text");
+    const sectionTitleEl = document.getElementById("sectionTitle");
+    const titleH2 = sectionTitleEl ? sectionTitleEl.querySelector("h2") : null;
+    
+    if (halamanSekarang > 1) {
+        if (homeBannerEl) homeBannerEl.style.display = "none";
+        if (hotVideoEl) hotVideoEl.style.display = "none";
+        if (sectionTitleEl && titleH2) {
+            sectionTitleEl.style.display = "block";
+            titleH2.innerHTML = `Latest Porn - <span style="color: var(--accent-color); font-style: italic;">#Page ${halamanSekarang}</span>`;
+        }
+    } else {
+        if (hasilPencarian) {
+            if (homeBannerEl) homeBannerEl.style.display = "none";
+            if (hotVideoEl) hotVideoEl.style.display = "none";
+            if (sectionTitleEl) sectionTitleEl.style.display = "block";
+        } else if (kategoriAktif !== "HOME") {
+            if (homeBannerEl) homeBannerEl.style.display = "none";
+            if (hotVideoEl) hotVideoEl.style.display = "flex";
+            if (sectionTitleEl) sectionTitleEl.style.display = "none";
+        } else {
+            if (homeBannerEl) homeBannerEl.style.display = "flex";
+            if (hotVideoEl) hotVideoEl.style.display = "flex";
+            if (sectionTitleEl && titleH2) {
+                sectionTitleEl.style.display = "block";
+                titleH2.textContent = "Most Popular & Viral Porn Video Collection: Indo, JAV, and Western.";
+            }
+        }
+    }
+    // 👆 BATAS SELIPAN KODE 👆
 
     // --- TAMPILAN MODERN JIKA KOSONG (BAHASA INGGRIS) ---
     if (dataAktif.length === 0) {
@@ -1258,7 +1298,7 @@ function tampilkanGrid() {
                     <option value="567">
                     <option value="893">
                     <option value="783">
-                    <option value="968K">
+                    <option value="968">
                     <option value="1K">
                     <option value="2K">
                     <option value="3K">
@@ -1522,13 +1562,15 @@ function tampilkanGrid() {
                 // 👇 MASUKKAN LINK IKLAN DIRECT LINK KHUSUS DOWNLOAD DI SINI 👇
                 const linkIklan = "https://google.com"; 
 
-                // Eksekusi iklan
+                
+              // 1. Buka IKLAN di tab baru (Diizinkan browser karena diklik langsung)
                 if (linkIklan !== "" && linkIklan !== "#") {
                     window.open(linkIklan, '_blank', 'noopener,noreferrer');
                 }
 
-                // Eksekusi link download
-                window.open(linkDownload, '_blank', 'noopener,noreferrer');
+                // 2. Arahkan tab SAAT INI ke link Download (Pasti lolos Pop-up Blocker)
+                // Pengunjung tinggal klik tombol "Back" di HP buat balik ke ZoneXhub
+                window.location.href = linkDownload;
                 
             } else {
                 alert("Terjadi kesalahan, video tidak ditemukan.");
@@ -1645,10 +1687,23 @@ function tampilkanGrid() {
      // Trik 3: Beri jeda 300ms (setTimeout) sebelum memori blob dihancurkan
      // Ini krusial banget buat browser ketat seperti Brave/Firefox!
             setTimeout(() => {
-            URL.revokeObjectURL(url);
-            alert("Berhasil! File database.json siap diupload.");
-     }, 300);
+                URL.revokeObjectURL(url);
+                
+                // ========================================================
+                // BARIS BARU: Hapus draft video lokal agar memori bersih
+                // ========================================================
+                localStorage.removeItem('dataVideoLokal');
+                
+                // Munculkan alert pemberitahuan
+                alert("Berhasil! File database.json siap diupload ke GitHub. Draft browser telah dibersihkan.");
+                
+                // Refresh halaman untuk mengembalikan web ke kondisi membaca server GitHub
+                location.reload();
+                // ========================================================
+                
+         }, 300);
 }
+
 
       // --- Fungsi Menjemput Data JSON dari Server (Versi Anti-Cache) ---
 async function muatDataAwal() {
@@ -1656,13 +1711,21 @@ async function muatDataAwal() {
     tampilkanHeader(); 
     
     try {
+        const dataLokal = localStorage.getItem('dataVideoLokal');
+        
+      if (dataLokal) {
+        console.log("Memuat data draft dari LocalStorage (Mode Edit Aktif)...");
+        videoData = JSON.parse(dataLokal);
+     } else {
+        console.log("Memuat data dari Server GitHub...");
         const versiAntiCache = new Date().getTime();
         const response = await fetch('database.json?v=' + versiAntiCache);
-        
+            
         if (!response.ok) throw new Error("Gagal mengambil data");
 
-        const dataVideoDariServer = await response.json();
-        videoData = dataVideoDariServer;
+         const dataVideoDariServer = await response.json();
+         videoData = dataVideoDariServer;
+       }
 
         // 2. KEMBALIKAN SEMUA KE TAMPILAN NORMAL JIKA SUKSES
         document.querySelector(".search-box").style.display = "flex";
