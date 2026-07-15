@@ -249,44 +249,107 @@
         .pagination button { background-color: #2a2a2a; color: #ccc; border: none; padding: 8px 14px; border-radius: 50px; cursor: pointer; font-size: 13px; font-weight: bold; transition: background 0.2s;}
         .pagination button:hover { background-color: #444; }
         .pagination button.active { background-color: var(--accent-color); color: white; }
+        
 
-        /* --- Desain Bagian Bawah (Footer) --- */
+        /* --- Desain Bagian Bawah (Footer) TAMPILAN BARU --- */
         footer {
-        background-color: #1a1a1a;
-        padding: 30px 20px;
-        text-align: center;
-        border-top: 1px solid #333;
-        position: relative;
-     }
+            background-color: #121212; /* Lebih gelap biar kontras dan elegan */
+            padding: 50px 20px 20px 20px;
+            border-top: 3px solid var(--accent-color); /* Garis aksen pink di atas */
+            color: #999;
+            font-size: 13px;
+            line-height: 1.6;
+        }
 
-        footer p {
-        color: #999;
-        font-size: 13px;
-        line-height: 1.8;
-        max-width: 900px;
-        margin: 0 auto 15px;
-     }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
 
-        .footer-links {
-        display: flex;
-         justify-content: center;
-        gap: 20px;
-         flex-wrap: wrap;
-         margin-top: 30px;
-         margin-bottom: 15px;
-      }
+        /* Tampilan Brand / Logo Teks */
+        .footer-brand h3 {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .footer-brand h3 span { color: var(--accent-color); }
+        .footer-brand p { margin-bottom: 20px; font-size: 12px; }
 
-       .footer-links a {
-        color: var(--accent-color);
-        font-size: 12px;
-        font-weight: bold;
-        text-decoration: none;
-        transition: color .2s;
-      }
+        /* Judul Tiap Kolom */
+        .footer-heading {
+            color: #eee;
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-       .footer-links a:hover {
-        color: #fff;
-      }
+        /* Daftar Link */
+        .footer-list { list-style: none; padding: 0; }
+        .footer-list li { margin-bottom: 12px; }
+        .footer-list a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s, padding-left 0.3s;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        /* Efek geser ke kanan dikit pas kena mouse (Desktop) */
+        .footer-list a:hover {
+            color: var(--accent-color);
+            padding-left: 8px; 
+        }
+
+        /* Ikon Sosial Media */
+        .footer-social { display: flex; gap: 15px; }
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: #262626;
+            color: #fff;
+            border-radius: 50%;
+            transition: background 0.3s, transform 0.3s;
+            font-size: 16px;
+        }
+        .footer-social a:hover {
+            background: var(--accent-color);
+            transform: translateY(-4px); /* Efek loncat dikit */
+        }
+
+        /* Bagian Paling Bawah (Copyright) */
+        .footer-bottom {
+            border-top: 1px solid #2a2a2a;
+            padding-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+        .footer-bottom p { font-size: 12px; max-width: 800px; line-height: 1.8; margin: 0; }
+
+        /* Responsif HP */
+        @media (max-width: 768px) {
+            .footer-container {
+                text-align: center;
+                grid-template-columns: 1fr; /* Jadi 1 baris memanjang ke bawah */
+                gap: 30px;
+            }
+            .footer-list a:hover { padding-left: 0; } /* Matikan efek geser di HP */
+            .footer-social { justify-content: center; }
+        }
 
         
 
@@ -478,7 +541,7 @@
         <div id="tempat-logo"></div>
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search video..." onkeyup="cariVideo(event)">
-            <button id="btnSecret"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button id="btnSecret" onclick="cariVideo(event)"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
     </header>
 
@@ -497,19 +560,15 @@
         <!-- KOTAK IKLAN BANNER TIPIS HALAMAN UTAMA -->
         <!-- Padding diubah jadi 8px dan margin bawah dirapatkan jadi 20px -->
         <div id="home-banner" style="margin: 0 0 20px 0; padding: 8px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
-            <span style="display: block; font-size: 10px; color: #777; margin-bottom: 5px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>
+            <span style="display: block; font-size: 10px; color: #777; margin-bottom: 5px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>           
             
-            <!-- Tempel Kode Script Banner Adsterra di BawahSini -->
-             <script>
-              atOptions = {
-                 'key' : '49a16f5cf444a57246639bcf56f72c2a',
-                 'format' : 'iframe',
-                 'height' : 50,
-                 'width' : 320,
-                 'params' : {}
-             };
-           </script>
-           <script src="https://www.highperformanceformat.com/49a16f5cf444a57246639bcf56f72c2a/invoke.js"></script>
+            <!-- Tempel Kode Script Banner tipis Header Adsterra di BawahSini -->
+                     
+                     
+                     
+                     
+                     
+            <!-- batas salin banner -->
         </div>
         
            <!-- HOT VIDEO -->
@@ -534,20 +593,15 @@
         <div id="bottom-banner" style="margin: 30px 0 10px 0; padding: 15px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: block;">
             <span style="display: block; font-size: 10px; color: #777; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>
             
-            <!-- Tempel Kode Script Banner 300x250 Adsterra di Sini -->
-            <script>
-              atOptions = {
-                'key' : 'ca353ff4fb081e9b0a48eb877b93b412',
-                'format' : 'iframe',
-                'height' : 250,
-                'width' : 300,
-                'params' : {}
-              };
-            </script>
-            <script src="https://www.highperformanceformat.com/ca353ff4fb081e9b0a48eb877b93b412/invoke.js"></script>
-        </div>
-
-     </main>
+       <!-- Tempel Kode Script Banner 300x250 Adsterra di Sini -->
+            
+            
+            
+            
+            
+       <!-- batas salin banner -->     
+             </div>
+      </main>
 
     <!-- Halaman Khusus Nonton Video (Player Page) -->
     <div id="playerPage">
@@ -583,20 +637,17 @@
         </div>
         
         <!-- 1. KOTAK BARU (TERLIHAT): KHUSUS UNTUK BANNER 300x250 + TULISAN -->
-        <div style="margin: 30px 0 35px 0; padding: 15px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: block;">
-            <span style="display: block; font-size: 10px; color: #777; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>
+        <div style="margin: 25px 0 30px 0; padding: 8px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: block;">
+            <span style="display: block; font-size: 10px; color: #777; margin-bottom: 5px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>
             
-            <script>
-              atOptions = {
-                'key' : 'ca353ff4fb081e9b0a48eb877b93b412',
-                'format' : 'iframe',
-                'height' : 250,
-                'width' : 300,
-                'params' : {}
-              };
-            </script>
-            <script src="https://www.highperformanceformat.com/ca353ff4fb081e9b0a48eb877b93b412/invoke.js"></script>
-        </div>
+            <!-- Banner tipis halaman player  300x50 Adsterra di Sini -->
+            
+            
+            
+            
+
+            <!-- batas salin banner --> 
+         </div>
 
         <!-- 2. KOTAK LAMA: TUMBAL SCRIPT SOCIAL BAR -->
         <style>
@@ -618,39 +669,70 @@
         <div style="margin: 30px 0 35px 0; padding: 15px; text-align: center; background-color: #262626; border: 1px solid #333; border-radius: 4px; width: 100%; display: block;">
             <span style="display: block; font-size: 10px; color: #777; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">- Advertisement -</span>
             
-            <script>
-              atOptions = {
-                'key' : 'ca353ff4fb081e9b0a48eb877b93b412',
-                'format' : 'iframe',
-                'height' : 250,
-                'width' : 300,
-                'params' : {}
-              };
-            </script>
-            <script src="https://www.highperformanceformat.com/ca353ff4fb081e9b0a48eb877b93b412/invoke.js"></script>
-        </div>
+            <!-- Banner bawah related  300x250 Adsterra di Sini -->
+            
+            
+            
+            
+             <!-- batas salin banner --> 
+         </div>
 
     </div> <!-- ⬅️ TAG PENUTUP PLAYER PAGE DIPINDAH KE PALING BAWAH SINI -->
-    <!-- Bagian Kaki Web (Footer) -->
     
+    
+    <!-- Bagian Kaki Web (Footer) -->
     <footer>
-    <p>
-        Welcome to ZoneXhub, your destination for discovering trending and popular adult entertainment videos in a modern, fast, and user-friendly environment. Our platform is designed to provide a smooth browsing experience with organized categories, responsive playback, and regularly updated content. Whether you're exploring the latest uploads or searching for specific categories, ZoneXhub aims to make finding new videos simple and enjoyable across desktop, tablet, and mobile devices.
-    </p>
+        <div class="footer-container">
+            <!-- Kolom 1: Brand & Deskripsi -->
+            <div class="footer-brand">
+                <h3>ZoneX<span>hub</span></h3>
+                <p>Your ultimate destination for discovering trending and popular adult entertainment videos in a modern, fast, and user-friendly environment.</p>
+                <div class="footer-social">
+                    <a href="https://t.me/+9yfRTEBsNSNjNWVl" target="_blank" title="Join Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="#" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" title="Contact Us"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
 
-    <p>
-        We are committed to improving the user experience through a clean interface, fast page loading, and continuous updates to our content library. Our goal is to provide visitors with a reliable platform where they can easily discover fresh and trending videos while enjoying seamless navigation and high-quality streaming performance.
-    </p>
+            <!-- Kolom 2: Quick Links Kategori -->
+            <div>
+                <div class="footer-heading">Categories</div>
+                <ul class="footer-list">
+                    <li><a href="javascript:void(0)" onclick="filterKategori('Indonesia')">Indonesian Viral</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterKategori('Jav')">JAV Censored & Uncensored</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterKategori('Western')">Western & OnlyFans</a></li>
+                </ul>
+            </div>
 
-    <div class="footer-links">
-        <a href="#">18 U.S.C. 2257</a>
-        <a href="#">DMCA</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
-    </div>
+            <!-- Kolom 3: Legal & Info -->
+            <div>
+                <div class="footer-heading">Information</div>
+                <ul class="footer-list">
+                    <li><a href="#">18 U.S.C. 2257</a></li>
+                    <li><a href="#">DMCA Notice</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                </ul>
+                
+                <!-- 👇 KOTAK LOGO RTA (RESTRICTED TO ADULTS) MURNI CSS 👇 -->
+                <div style="margin-top: 20px; border: 2px solid #666; display: inline-block; padding: 6px 12px; text-align: center; border-radius: 4px; user-select: none;">
+                    <div style="font-size: 20px; font-weight: 900; color: #eee; letter-spacing: 2px; line-height: 1;">RTA</div>
+                    <div style="font-size: 9px; color: #999; letter-spacing: 1px; margin-top: 2px; font-weight: bold;">RESTRICTED TO ADULTS</div>
+                </div>
+            </div>
+         </div>
 
-    <p onclick="bukaKunciRahasia()" style="cursor: default;">© 2026 ZoneXhub. All rights reserved.</p>
-</footer>
+        <!-- Bagian Bawah Copyright & Rahasia Admin -->
+        <div class="footer-bottom">
+            <p>We are committed to improving the user experience through a clean interface, fast page loading, and continuous updates to our content library.</p>
+            
+            <!-- TOMBOL RAHASIA ADMIN TETAP AMAN DI SINI -->
+            <p onclick="bukaKunciRahasia()" style="cursor: default; color: #666; font-weight: bold; margin-top: 10px;">
+                © <span id="tahun-otomatis"></span> ZoneXhub.net - All rights reserved.
+            </p>
+            <script>document.getElementById("tahun-otomatis").textContent = new Date().getFullYear();</script>
+        </div>
+    </footer>
 
     <!-- Tombol Melayang Panel Admin Masuk -->
     <div class="fab-container" id="panelAdmin">
@@ -729,7 +811,7 @@ function bukaKunciRahasia() {
         
         hotVideoEl.style.display = "flex";
         let flag = "";
-        let catLower = kategori.toLowerCase();
+        let catLower = (kategori || "").toLowerCase();
         
         // LOGIKA BARU MENGGUNAKAN LIBRARY
         if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
@@ -833,7 +915,7 @@ function cariVideo(event){
                 
                 hotVideoEl.style.display = "flex";
                 let flag = "";
-                let catLower = kategoriAktif.toLowerCase();
+                let catLower = (kategoriAktif || "").toLowerCase();
                 
                 // LOGIKA BARU MENGGUNAKAN LIBRARY DI FUNGSI CARI VIDEO
                 if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
@@ -856,10 +938,13 @@ function cariVideo(event){
             document.getElementById("bottom-banner").style.display = "none";
             document.getElementById("tombol-telegram").style.display = "none";
             
+            // Sanitasi input untuk mencegah XSS
+            const amanKeyword = keywordInput.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            
             if(hasilPencarian.length > 0) {
-                titleText.innerHTML = `Search results for : <span style="color: var(--accent-color); font-style: italic;">"${keywordInput}"</span>`;
+                titleText.innerHTML = `Search results for : <span style="color: var(--accent-color); font-style: italic;">"${amanKeyword}"</span>`;
             } else {
-                titleText.innerHTML = `No results found for : <span style="color: var(--accent-color); font-style: italic;">"${keywordInput}"</span>`;
+                titleText.innerHTML = `No results found for : <span style="color: var(--accent-color); font-style: italic;">"${amanKeyword}"</span>`;
             }
         }
         
@@ -945,7 +1030,7 @@ function arahkanKeLink(video) {
         scriptIklan.async = true; // Biar loading iklan nggak bikin video lemot
         
         // GANTI URL DI BAWAH INI DENGAN LINK SCRIPT SOCIAL BAR DARI DASHBOARD ADSTERRA KAMU
-        scriptIklan.src = 'https://pl30299690.effectivecpmnetwork.com/05/16/57/05165721cf8cc81a00affdb56cdaf5f0.js'; 
+        // scriptIklan.src = ' Di sini tempel ikan sosial bar '; // <-- TARUH URL IKLAN BARU DI DALAM TANDA KUTIP NANTI
         
         // Suntikkan script iklan ke dalam wadah di bawah player
         wadahIklan.appendChild(scriptIklan);
@@ -987,7 +1072,7 @@ window.addEventListener("popstate", function(event) {
             
             hotVideoEl.style.display = "flex";
             let flag = "";
-            let catLower = kategoriAktif.toLowerCase();
+            let catLower = (kategoriAktif || "").toLowerCase();
             
             // LOGIKA BARU MENGGUNAKAN LIBRARY (UNTUK TOMBOL BACK)
             if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
@@ -1000,9 +1085,10 @@ window.addEventListener("popstate", function(event) {
         document.getElementById("sectionTitle").style.display = "block";
         
         // --- KODE BARU UNTUK WARNA PINK DAN MIRING DI TOMBOL BACK ---
+        const amanKeywordHistory = keyword.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         document.getElementById("sectionTitle").querySelector("h2").innerHTML = hasilPencarian.length > 0 
-            ? `Search results for: <span style="color: var(--accent-color); font-style: italic;">"${keyword}"</span>` 
-            : `No results found for: <span style="color: var(--accent-color); font-style: italic;">"${keyword}"</span>`;
+            ? `Search results for: <span style="color: var(--accent-color); font-style: italic;">"${amanKeywordHistory}"</span>` 
+            : `No results found for: <span style="color: var(--accent-color); font-style: italic;">"${amanKeywordHistory}"</span>`;
             
         document.getElementById("home-banner").style.display = "none";
         hotVideoEl.style.display = "none";
@@ -1050,7 +1136,7 @@ window.addEventListener("popstate", function(event) {
         }
     }
 });
-        function bukaMenu(url) { window.open(url, "_blank"); }
+        function bukaMenu(url) { window.open(url, '_blank', 'noopener,noreferrer'); }
 
 
         // --- Fungsi Render Tampilan Header ---
@@ -1152,7 +1238,6 @@ function tampilkanGrid() {
 
         card.innerHTML = `
             <div class="thumbnail">
-                <!-- Menggunakan SVG transparan bawaan sebagai placeholder sebelum gambar di-scroll -->
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3C/svg%3E" data-src="${srcGambar}" alt="${video.judul}" class="lazy-thumb">
                 <div class="overlay-stats">
                     <span><i class="fa-solid fa-eye"></i> ${video.views}</span>
@@ -1163,11 +1248,132 @@ function tampilkanGrid() {
             <div class="info" onclick="if(isEditMode) event.stopPropagation();">
                 <div class="likes"></div>
                 <div class="title">${video.judul}</div>
-                <input type="text" class="edit-input-title" id="input-judul-${index}" value="${video.judul}">
+                <input type="text" class="edit-input-title" id="input-judul-${index}" value="${video.judul}" placeholder="Judul Video">
                 <input type="text" class="edit-input-link" id="input-player-${index}" value="${video.tujuan || video.player || ""}" placeholder="Link Embed Player">
-                <input type="text" class="edit-input-title" id="input-view-${index}" value="${video.views}" placeholder="Views">
-                <input type="text" class="edit-input-title" id="input-durasi-${index}" value="${video.durasi}" placeholder="Durasi">
-                <input type="text" class="edit-input-title" id="input-kategori-${index}" value="${video.kategori || ""}" placeholder="Kategori">
+                
+                <!-- 👇 KOTAK VIEWS PAKAI DATALIST (BISA PILIH & BISA KETIK MANUAL) 👇 -->
+                <input type="text" list="pilihan-views" class="edit-input-title" id="input-view-${index}" value="${video.views}" placeholder="Views (misal: 12K)">
+                <datalist id="pilihan-views">
+                    <option value="424">
+                    <option value="567">
+                    <option value="893">
+                    <option value="783">
+                    <option value="968K">
+                    <option value="1K">
+                    <option value="2K">
+                    <option value="3K">
+                    <option value="4K">
+                    <option value="5K">
+                    <option value="6K">
+                    <option value="7K">
+                    <option value="8K">
+                    <option value="9K">
+                    <option value="10K">
+                    <option value="11K">
+                    <option value="12K">
+                    <option value="13K">
+                    <option value="14K">
+                    <option value="15K">
+                    <option value="16K">
+                    <option value="17K">
+                    <option value="18K">
+                    <option value="19K">
+                    <option value="20K">
+                    <option value="21K">
+                    <option value="22K">
+                    <option value="23K">
+                    <option value="24K">
+                    <option value="25K">
+                    <option value="26K">
+                    <option value="27K">
+                    <option value="28K">
+                    <option value="29K">
+                    <option value="30K">
+                    <option value="31K">
+                    <option value="32K">
+                    <option value="33K">
+                    <option value="34K">
+                    <option value="35K">
+                    <option value="36K">
+                    <option value="37K">
+                    <option value="38K">
+                    <option value="39K">
+                    <option value="40K">
+                    <option value="41K">
+                    <option value="42K">
+                    <option value="43K">
+                    <option value="44K">
+                    <option value="45K">
+                    <option value="46K">
+                    <option value="47K">
+                    <option value="48K">
+                    <option value="49K">
+                    <option value="50K">
+                    <option value="51K">
+                    <option value="52K">
+                    <option value="53K">
+                    <option value="54K">
+                    <option value="55K">
+                    <option value="56K">
+                    <option value="57K">
+                    <option value="58K">
+                    <option value="59K">
+                    <option value="60K">
+                    <option value="61K">
+                    <option value="62K">
+                    <option value="63K">
+                    <option value="64K">
+                    <option value="65K">
+                    <option value="66K">
+                    <option value="67K">
+                    <option value="68K">
+                    <option value="69K">
+                    <option value="70K">
+                    <option value="71K">
+                    <option value="72K">
+                    <option value="73K">
+                    <option value="74K">
+                    <option value="75K">
+                    <option value="76K">
+                    <option value="77K">
+                    <option value="78K">
+                    <option value="79K">
+                    <option value="80K">
+                    <option value="81K">
+                    <option value="82K">
+                    <option value="83K">
+                    <option value="84K">
+                    <option value="85K">
+                    <option value="86K">
+                    <option value="87K">
+                    <option value="88K">
+                    <option value="89K">
+                    <option value="90K">
+                    <option value="91K">
+                    <option value="92K">
+                    <option value="93K">
+                    <option value="94K">
+                    <option value="95K">
+                    <option value="96K">
+                    <option value="97K">
+                    <option value="98K">
+                    <option value="99K">
+                    <option value="100K">
+                    <option value="121K">
+                    <option value="232K">
+                    <option value="276K">
+                    <option value="301K">
+                </datalist>
+
+                <input type="text" class="edit-input-title" id="input-durasi-${index}" value="${video.durasi}" placeholder="Durasi (contoh: 00:00)">
+                
+                <!-- 👇 KOTAK KATEGORI TETAP DROPDOWN BIASA KARENA PASTI 👇 -->
+                <select class="edit-input-title" id="input-kategori-${index}">
+                    <option value="${video.kategori}" selected>${video.kategori || "Pilih Kategori"}</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Jav">Jav</option>
+                    <option value="Western">Western</option>
+                </select>
             </div>`;
         
         fragment.appendChild(card);
@@ -1281,11 +1487,49 @@ function tampilkanGrid() {
             }
         }
 
-        // --- Fungsi Eksekusi Tombol Download ---
+     // --- Fungsi Eksekusi Tombol Download ---
         function unduhVideoAktif() {
             if (window.videoSedangDiputar) {
-                const linkDownload = window.videoSedangDiputar.link_download || window.videoSedangDiputar.tujuan;
-                window.open(linkDownload, '_blank');
+                // Ambil link dasar dari data video
+                let linkDownload = window.videoSedangDiputar.link_download || window.videoSedangDiputar.tujuan;
+                
+                // 👇 LOGIKA MULTI-SERVER: Deteksi URL dan ubah link sesuai server 👇
+                if (linkDownload) {
+                    
+                    // 1. Cek apakah ini server Earnvids
+                    if (linkDownload.includes("earnvids")) {
+                        // Sesuaikan ini dengan format asli Earnvids (misal /e/ jadi /d/)
+                        linkDownload = linkDownload.replace('/e/', '/d/');
+                    } 
+                    
+                    // 2. Cek apakah ini server kedua (Misal: Doodstream)
+                    else if (linkDownload.includes("dood")) {
+                        // Sesuaikan ini dengan format asli server kedua
+                        linkDownload = linkDownload.replace('/e/', '/d/');
+                    }
+                    
+                    // 3. (Opsional) Kalau pakai server ketiga, tinggal tambah else if lagi
+                    // else if (linkDownload.includes("server3")) {
+                    //     linkDownload = linkDownload.replace('/e/', '/v/');
+                    // }
+                    
+                    // Default kalau nama server nggak dikenali
+                    else {
+                        linkDownload = linkDownload.replace('/e/', '/d/');
+                    }
+                }
+                
+                // 👇 MASUKKAN LINK IKLAN DIRECT LINK KHUSUS DOWNLOAD DI SINI 👇
+                const linkIklan = "https://google.com"; 
+
+                // Eksekusi iklan
+                if (linkIklan !== "" && linkIklan !== "#") {
+                    window.open(linkIklan, '_blank', 'noopener,noreferrer');
+                }
+
+                // Eksekusi link download
+                window.open(linkDownload, '_blank', 'noopener,noreferrer');
+                
             } else {
                 alert("Terjadi kesalahan, video tidak ditemukan.");
             }
@@ -1430,12 +1674,11 @@ async function muatDataAwal() {
         footer.style.display = "block";
         footer.style.padding = ""; // Reset padding
         
-        // Munculkan kembali semua anak di dalam footer (termasuk tulisan panjangnya)
+        // Munculkan kembali 2 anak utama di dalam footer baru
         const isiFooter = footer.children;
         for (let i = 0; i < isiFooter.length; i++) {
-            isiFooter[i].style.display = "block";
+            isiFooter[i].style.display = ""; // Dikosongin biar ngikutin CSS bawaan (Grid & Flex)
         }
-        document.querySelector(".footer-links").style.display = "flex"; // Khusus link pakai flex
         
         // Hapus gaya peringatan tengah
         const wadahVid = document.getElementById("tempat-video");
@@ -1468,7 +1711,7 @@ async function muatDataAwal() {
         // 4. Header Logo pindah ke tengah
         document.querySelector("header").style.justifyContent = "center";
         
-        // 5. MANIPULASI FOOTER (Super Paten)
+        // 5. MANIPULASI FOOTER BARU (Biar saat error, link kategori dll hilang, sisa copyright)
         const footer = document.querySelector("footer");
         footer.style.display = "block"; 
         footer.style.padding = "15px 20px";
@@ -1477,7 +1720,8 @@ async function muatDataAwal() {
         for (let i = 0; i < isiFooter.length; i++) {
             isiFooter[i].style.display = "none";
         }
-        isiFooter[isiFooter.length - 1].style.display = "block";
+        // Munculkan HANYA bagian paling bawah (Copyright & Tombol Admin)
+        isiFooter[isiFooter.length - 1].style.display = "flex"; 
         
         // 6. PERINGATAN TENGAH LAYAR
         const wadahVid = document.getElementById("tempat-video");
@@ -1493,12 +1737,14 @@ async function muatDataAwal() {
                 <i class="fa-solid fa-gear fa-spin" style="font-size: 45px; color: red; margin-bottom: 12px;"></i>
                 
                 <!-- Tulisan UNDER MAINTENANCE warna merah -->
-                <h3 style="color: red; font-size: 18px; margin-bottom: 8px;">UNDER MAINTENANCE !</h3>
+                <h3 style="color: red; font-size: 18px; margin-bottom: 8px; font-style: italic;">UNDER MAINTENANCE !</h3>
                 
                 <p style="color: #888; font-size: 12px; margin-bottom: 30px;">We are currently updating our database to serve you better. Please check back soon.</p>
                 
                 <!-- Tulisan For more info warna abu-abu terang yang kalem -->
-                <p style="color: #cccccc; font-size: 13px; margin-bottom: 10px; font-weight: bold;">For more information 👇🏻</p>
+                <p style="color: #cccccc; font-size: 13px; margin-bottom: 10px; font-weight: bold;">
+                     For more information <i class="fa-solid fa-hand-point-down" style="margin-left: 6px; color: #ffd700; filter: drop-shadow(0 0 5px #ffd700); font-size: 13px;"></i>
+                </p>
                 
                 <a href="https://t.me/+9yfRTEBsNSNjNWVl" target="_blank" style="background-color: #24A1DE; color: white; padding: 8px 16px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block; transition: 0.2s;">
                     <i class="fab fa-telegram-plane" style="margin-right: 4px; font-size: 18px;"></i> Join Telegram Group
@@ -1517,7 +1763,7 @@ async function muatDataAwal() {
          // Jika sudah lewat 10 menit dari klik terakhir, buka iklan
          // Pastikan link-nya valid dan bukan "#" atau "iklan" kosong
              if (SEKARANG - terakhirKlik > SEPULUH_MENIT && link !== "#" && link !== "") {
-             window.open(link, '_blank');
+             window.open(link, '_blank', 'noopener,noreferrer');
              localStorage.setItem('terakhirKlikIklan', SEKARANG); // Catat waktu klik baru
           }
     
