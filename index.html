@@ -614,12 +614,19 @@
             
             <div id="playerInfoBlock">
                 <h2 id="playerTitle" style="margin-bottom: 4px;"></h2>
+                
+                <!-- WADAH TANGGAL BARU -->
+               <div id="playerTanggal" style="font-size: 12px; color: #aaaaaa; margin-bottom: 4px; font-style: italic;">
+                    <i class="fa fa-calendar"></i> <span></span>
+              </div>
+                 
+                 <!-- WADAH DURASI -->
                 <div style="font-size: 13px; color: #ccc; margin-bottom: 8px;">
-                    Categories : <span id="playerCategory" style="font-style: italic; color: var(--accent-color);"></span>
+                    Categories : <span id="playerCategory" style="font-style: italic; margin-bottom: 8px; color: var(--accent-color);"></span>
                 </div>
                 
                 <!-- 👇 TEKS INFO DOWNLOAD (POLOS TAPI COPYWRITING NENDANG) 👇 -->
-                <div style="font-size: 11px; color: #999; font-style: italic; margin-bottom: 15px;">
+                <div style="font-size: 12px; color: #999; font-style: italic; margin-bottom: 15px;">
                     * Malas buffering dan keganggu iklan? Download videonya langsung di bawah, jaminan anti ribet!
                 </div>
                 
@@ -1013,6 +1020,10 @@ function arahkanKeLink(video) {
     
     // 2. Populate Detailed Player Page
     document.getElementById("playerTitle").textContent = video.judul;
+    const elTanggal = document.getElementById("playerTanggal");
+if(elTanggal) {
+    elTanggal.querySelector("span").textContent = video.tanggal || "Tanggal tidak tersedia";
+}
     document.getElementById("playerCategory").textContent = video.kategori ? "#" + video.kategori : "#Uncategorized";
     window.videoSedangDiputar = video;
 
@@ -1406,6 +1417,7 @@ function tampilkanGrid() {
                 </datalist>
 
                 <input type="text" class="edit-input-title" id="input-durasi-${index}" value="${video.durasi}" placeholder="Durasi (contoh: 00:00)">
+                <input type="text" class="edit-input-title" id="input-tanggal-${index}" value="${video.tanggal || ''}" placeholder="Tanggal Post">
                 
                 <!-- 👇 KOTAK KATEGORI TETAP DROPDOWN BIASA KARENA PASTI 👇 -->
                 <select class="edit-input-title" id="input-kategori-${index}">
@@ -1598,6 +1610,7 @@ function tampilkanGrid() {
                 if(document.getElementById(`input-judul-${i}`)) {
                     v.judul = document.getElementById(`input-judul-${i}`).value;
                     v.tujuan = document.getElementById(`input-player-${i}`).value || "#";
+                    v.tanggal = document.getElementById(`input-tanggal-${i}`) ? document.getElementById(`input-tanggal-${i}`).value : (v.tanggal || "");
                     v.views = document.getElementById(`input-view-${i}`).value;
                     v.durasi = document.getElementById(`input-durasi-${i}`).value;
                     v.kategori = document.getElementById(`input-kategori-${i}`).value;
@@ -1639,18 +1652,24 @@ function tampilkanGrid() {
         }
 
         // --- Fungsi Tombol Manajemen Tambah Video ---
-        function tambahVideo() {
-            videoData.unshift({
-                gambar: "",
-                judul: "",
-                tujuan: "",
-                views: "",
-                durasi: "",
-                kategori: ""
-            });
-            tampilkanPagination();
-            tampilkanGrid();
-        }
+   function tambahVideo() {
+    // Bikin tanggal otomatis
+    const bulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    const waktu = new Date();
+    const tglOtomatis = `${waktu.getDate()} ${bulanIndo[waktu.getMonth()]} ${waktu.getFullYear()}`;
+
+    videoData.unshift({
+        gambar: "",
+        judul: "",
+        tujuan: "",
+        views: "",
+        durasi: "",
+        kategori: "",
+        tanggal: tglOtomatis // Otomatis keisi tanggal hari ini
+    });
+    tampilkanPagination();
+    tampilkanGrid();
+}
 
         // --- Fungsi Tombol Manajemen Hapus Video ---
         function hapusVideo() {
@@ -1661,51 +1680,46 @@ function tampilkanGrid() {
             }
         }
 
-       // --- Fungsi Ekspor HTML / Merakit Code Menjadi File database.json Siap Sebar ---
-        function downloadWebFinal() {
-            // 1. Pastikan perubahan tersimpan ke LocalStorage dulu
-            simpanPerubahan(true); 
 
-            // 2. Convert HANYA data video ke format teks JSON
-            const jsonString = JSON.stringify(videoData, null, 2);
+      // --- Fungsi Ekspor HTML / Merakit Code Menjadi File database.json Siap Sebar ---
+function downloadWebFinal() {
+    // 1. Pastikan perubahan tersimpan ke LocalStorage dulu
+    simpanPerubahan(true); 
 
-            // 3. Proses membuat file dan mengunduhnya (Ini proses bikin File Siluman 😂)
-            const blob = new Blob([jsonString], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
+    // 2. Convert HANYA data video ke format teks JSON
+    const jsonString = JSON.stringify(videoData, null, 2);
 
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "database.json"; 
+    // 3. Proses membuat file dan mengunduhnya
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
 
-            // Trik 1: Tempel elemen ke body secara fisik
-            document.body.appendChild(a);
-            a.click();
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "database.json"; 
 
-            // Trik 2: Hapus elemen siluman dari body
-            document.body.removeChild(a);
+    // Trik 1: Tempel elemen ke body secara fisik
+    document.body.appendChild(a);
+    a.click();
 
-            // 👇 PERBAIKAN FINAL: JEDA 8 DETIK & PEMINDAHAN PERINTAH REVOKE 👇
-            // Kasih waktu santai 8 detik biar admin bisa ngeklik "Unduh" di pop-up HP
-            setTimeout(() => {
-                
-                let hapusDraft = confirm("PENTING: Pastikan Anda sudah klik tombol 'Unduh/Download' di layar!\n\nApakah file 'database.json' SUDAH BERHASIL tersimpan di HP Anda?\n\n- Klik 'OK' jika sudah aman (Draft akan dihapus).\n- Klik 'Batal' jika gagal/belum (Draft tetap aman).");
-                
-                if (hapusDraft) {
-                    // Menghancurkan file siluman dari memori (Biar nggak gentayangan di RAM)
-                    URL.revokeObjectURL(url); 
-                    
-                    // Membersihkan LocalStorage yang bandel itu
-                    localStorage.removeItem('dataVideoLokal');
-                    alert("Draft berhasil dibersihkan! Web akan dimuat ulang ke kondisi awal.");
-                    location.reload();
-                } else {
-                    // Kalau admin klik Batal, file URL & LocalStorage tetap dibiarkan hidup
-                    alert("Draft AMAN dan tidak dihapus! Silakan coba klik tombol Download lagi nanti.");
-                }
-                
-            }, 8000); // 8000ms = 8 Detik
-            // 👆 -------------------------------------------------------- 👆
-        }
+    // Trik 2: Hapus elemen siluman dari body
+    document.body.removeChild(a);
+
+    // 👇 PEMBERSIHAN OTOMATIS DALAM 15 DETIK TANPA KONFIRMASI 👇
+    setTimeout(() => {
+        // Menghancurkan file URL dari memori
+        URL.revokeObjectURL(url); 
+        
+        // Membersihkan LocalStorage 
+        localStorage.removeItem('dataVideoLokal');
+        
+        // Notifikasi singkat pemberitahuan
+        alert("File siap disebar! Sistem telah dibersihkan otomatis.");
+        
+        // Refresh halaman kembali ke kondisi normal
+        location.reload();
+        
+    }, 15000); // 15000ms = 15 Detik (Bisa lo ganti ke 10000 buat 10 detik)
+}
 
 
       // --- Fungsi Menjemput Data JSON dari Server (Versi Anti-Cache) ---
