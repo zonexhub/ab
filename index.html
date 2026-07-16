@@ -1228,7 +1228,7 @@ function tampilkanGrid() {
         if (hotVideoEl) hotVideoEl.style.display = "none";
         if (sectionTitleEl && titleH2) {
             sectionTitleEl.style.display = "block";
-            titleH2.innerHTML = `Latest Porn - <span style="color: var(--accent-color); font-style: italic;">#Page ${halamanSekarang}</span>`;
+            titleH2.innerHTML = `Latest Porn - <span style="color: var(--accent-color); font-style: italic;">Page ${halamanSekarang}</span>`;
         }
     } else {
         if (hasilPencarian) {
@@ -1661,48 +1661,51 @@ function tampilkanGrid() {
             }
         }
 
-       // --- Fungsi Ekspor HTML / Merakit Code Menjadi File index.html Siap Sebar ---
-         function downloadWebFinal() {
-      // 1. Pastikan perubahan tersimpan ke LocalStorage dulu tanpa alert ganda
-         simpanPerubahan(true); 
+       // --- Fungsi Ekspor HTML / Merakit Code Menjadi File database.json Siap Sebar ---
+        function downloadWebFinal() {
+            // 1. Pastikan perubahan tersimpan ke LocalStorage dulu
+            simpanPerubahan(true); 
 
-      // 2. Convert HANYA data video ke format teks JSON
-         const jsonString = JSON.stringify(videoData, null, 2);
+            // 2. Convert HANYA data video ke format teks JSON
+            const jsonString = JSON.stringify(videoData, null, 2);
 
-     // 3. Proses membuat file dan mengunduhnya
-          const blob = new Blob([jsonString], { type: "application/json" });
-          const url = URL.createObjectURL(blob);
-    
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "database.json"; 
-    
-     // Trik 1: Tempel elemen ke body secara fisik agar AdBlocker mengira ini klik manusia asli
-          document.body.appendChild(a);
-          a.click();
-    
-     // Trik 2: Hapus elemen siluman setelah sukses terpicu
-           document.body.removeChild(a);
-    
-     // Trik 3: Beri jeda 300ms (setTimeout) sebelum memori blob dihancurkan
-     // Ini krusial banget buat browser ketat seperti Brave/Firefox!
+            // 3. Proses membuat file dan mengunduhnya (Ini proses bikin File Siluman 😂)
+            const blob = new Blob([jsonString], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "database.json"; 
+
+            // Trik 1: Tempel elemen ke body secara fisik
+            document.body.appendChild(a);
+            a.click();
+
+            // Trik 2: Hapus elemen siluman dari body
+            document.body.removeChild(a);
+
+            // 👇 PERBAIKAN FINAL: JEDA 8 DETIK & PEMINDAHAN PERINTAH REVOKE 👇
+            // Kasih waktu santai 8 detik biar admin bisa ngeklik "Unduh" di pop-up HP
             setTimeout(() => {
-                URL.revokeObjectURL(url);
                 
-                // ========================================================
-                // BARIS BARU: Hapus draft video lokal agar memori bersih
-                // ========================================================
-                localStorage.removeItem('dataVideoLokal');
+                let hapusDraft = confirm("PENTING: Pastikan Anda sudah klik tombol 'Unduh/Download' di layar!\n\nApakah file 'database.json' SUDAH BERHASIL tersimpan di HP Anda?\n\n- Klik 'OK' jika sudah aman (Draft akan dihapus).\n- Klik 'Batal' jika gagal/belum (Draft tetap aman).");
                 
-                // Munculkan alert pemberitahuan
-                alert("Berhasil! File database.json siap diupload ke GitHub. Draft browser telah dibersihkan.");
+                if (hapusDraft) {
+                    // Menghancurkan file siluman dari memori (Biar nggak gentayangan di RAM)
+                    URL.revokeObjectURL(url); 
+                    
+                    // Membersihkan LocalStorage yang bandel itu
+                    localStorage.removeItem('dataVideoLokal');
+                    alert("Draft berhasil dibersihkan! Web akan dimuat ulang ke kondisi awal.");
+                    location.reload();
+                } else {
+                    // Kalau admin klik Batal, file URL & LocalStorage tetap dibiarkan hidup
+                    alert("Draft AMAN dan tidak dihapus! Silakan coba klik tombol Download lagi nanti.");
+                }
                 
-                // Refresh halaman untuk mengembalikan web ke kondisi membaca server GitHub
-                location.reload();
-                // ========================================================
-                
-         }, 300);
-}
+            }, 8000); // 8000ms = 8 Detik
+            // 👆 -------------------------------------------------------- 👆
+        }
 
 
       // --- Fungsi Menjemput Data JSON dari Server (Versi Anti-Cache) ---
