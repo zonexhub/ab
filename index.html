@@ -41,7 +41,7 @@
          =================================================== -->
     <style id="core-style">
         /* --- Variabel & Reset Dasar --- */
-        :root { --bg-body: #1a1a1a; --bg-header: #202020; --accent-color: #ff5c8a; --text-main: #ffffff; --text-muted: #b3b3b3; }
+        :root { --bg-body: #1a1a1a; --bg-header: #202020; --accent-color: #eb1f72; --text-main: #ffffff; --text-muted: #b3b3b3; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; }
         a { text-decoration: none; color: inherit; }
@@ -613,20 +613,20 @@
             </div>
             
             <div id="playerInfoBlock">
-                <h2 id="playerTitle" style="margin-bottom: 4px;"></h2>
+                <h2 id="playerTitle" style="margin-bottom: 7px;"></h2>
                 
                 <!-- WADAH TANGGAL BARU -->
-               <div id="playerTanggal" style="font-size: 12px; color: #aaaaaa; margin-bottom: 4px; font-style: italic;">
+               <div id="playerTanggal" style="font-size: 13px; color: #aaaaaa; margin-bottom: 8px; font-style: italic;">
                     <i class="fa fa-calendar"></i> <span></span>
               </div>
                  
                  <!-- WADAH DURASI -->
-                <div style="font-size: 13px; color: #ccc; margin-bottom: 8px;">
-                    Categories : <span id="playerCategory" style="font-style: italic; margin-bottom: 8px; color: var(--accent-color);"></span>
+                <div style="font-size: 14px; color: #ccc; margin-bottom: 8px;">
+                    Categories : <span id="playerCategory" style="font-style: italic; margin-bottom: 12px; color: var(--accent-color);"></span>
                 </div>
                 
                 <!-- 👇 TEKS INFO DOWNLOAD (POLOS TAPI COPYWRITING NENDANG) 👇 -->
-                <div style="font-size: 12px; color: #999; font-style: italic; margin-bottom: 15px;">
+                <div style="font-size: 13px; color: #999; font-style: italic; margin-bottom: 15px;">
                     * Malas buffering dan keganggu iklan? Download videonya langsung di bawah, jaminan anti ribet!
                 </div>
                 
@@ -1165,7 +1165,7 @@ window.addEventListener("popstate", function(event) {
                     <input type="text" class="edit-sm-input edit-sm-link" id="input-header-link" value="${headerData.link}" placeholder="Link Redirect" style="width: 150px;">
                 </div>`;
             } else {
-                wadahLogo.innerHTML = `<a href="${headerData.link}"><img src="https://res.cloudinary.com/drtbkd5lr/image/upload/v1783861581/1000042072-removebg-preview_xc2pv9.png" alt="Logo" style="height: auto; width:150px; margin-bottom: 10px;"></a>`;
+                wadahLogo.innerHTML = `<a href="${headerData.link}"><img src="https://res.cloudinary.com/drtbkd5lr/image/upload/v1784217489/1000042490-removebg-preview_k4c3m8.png" alt="Logo" style="height: auto; width:150px; margin-bottom: 10px;"></a>`;
             }
         }
 
@@ -1545,43 +1545,24 @@ function tampilkanGrid() {
                 // Ambil link dasar dari data video
                 let linkDownload = window.videoSedangDiputar.link_download || window.videoSedangDiputar.tujuan;
                 
-                // 👇 LOGIKA MULTI-SERVER: Deteksi URL dan ubah link sesuai server 👇
+                // 👇 LOGIKA OTOMATIS: Deteksi URL dan ubah link embed jadi download pakai Regex 👇
                 if (linkDownload) {
-                    
-                    // 1. Cek apakah ini server Earnvids
-                    if (linkDownload.includes("earnvids")) {
-                        // Sesuaikan ini dengan format asli Earnvids (misal /e/ jadi /d/)
-                        linkDownload = linkDownload.replace('/e/', '/d/');
-                    } 
-                    
-                    // 2. Cek apakah ini server kedua (Misal: Doodstream)
-                    else if (linkDownload.includes("dood")) {
-                        // Sesuaikan ini dengan format asli server kedua
-                        linkDownload = linkDownload.replace('/e/', '/d/');
-                    }
-                    
-                    // 3. (Opsional) Kalau pakai server ketiga, tinggal tambah else if lagi
-                    // else if (linkDownload.includes("server3")) {
-                    //     linkDownload = linkDownload.replace('/e/', '/v/');
-                    // }
-                    
-                    // Default kalau nama server nggak dikenali
-                    else {
-                        linkDownload = linkDownload.replace('/e/', '/d/');
-                    }
+                    // Regex akan menyapu semua link dari server MANAPUN.
+                    // Kalau ketemu /e/ diganti /d/. Kalau ketemu /embed/ diganti /download/
+                    linkDownload = linkDownload.replace(/\/(e|embed)\//i, function(match) {
+                        return match.toLowerCase() === '/e/' ? '/d/' : '/download/';
+                    });
                 }
                 
                 // 👇 MASUKKAN LINK IKLAN DIRECT LINK KHUSUS DOWNLOAD DI SINI 👇
                 const linkIklan = "https://google.com"; 
 
-                
-              // 1. Buka IKLAN di tab baru (Diizinkan browser karena diklik langsung)
+                // 1. Buka IKLAN di tab baru (Diizinkan browser karena diklik langsung)
                 if (linkIklan !== "" && linkIklan !== "#") {
                     window.open(linkIklan, '_blank', 'noopener,noreferrer');
                 }
 
                 // 2. Arahkan tab SAAT INI ke link Download (Pasti lolos Pop-up Blocker)
-                // Pengunjung tinggal klik tombol "Back" di HP buat balik ke ZoneXhub
                 window.location.href = linkDownload;
                 
             } else {
@@ -1653,7 +1634,24 @@ function tampilkanGrid() {
 
         // --- Fungsi Tombol Manajemen Tambah Video ---
    function tambahVideo() {
-    // Bikin tanggal otomatis
+   // 1. AMANKAN KETIKAN SEMENTARA SECARA DIAM-DIAM SEBELUM LAYAR DI-REFRESH
+        const dataTarget = hasilPencarian || videoData;
+        const mulai = (halamanSekarang - 1) * videoPerHalaman;
+        const akhir = mulai + videoPerHalaman;
+
+        dataTarget.slice(mulai, akhir).forEach((v, idx) => {
+            const i = mulai + idx;
+            if (document.getElementById(`input-judul-${i}`)) {
+                v.judul = document.getElementById(`input-judul-${i}`).value;
+                v.tujuan = document.getElementById(`input-player-${i}`).value || "#";
+                v.tanggal = document.getElementById(`input-tanggal-${i}`) ? document.getElementById(`input-tanggal-${i}`).value : (v.tanggal || "");
+                v.views = document.getElementById(`input-view-${i}`).value;
+                v.durasi = document.getElementById(`input-durasi-${i}`).value;
+                v.kategori = document.getElementById(`input-kategori-${i}`).value;
+            }
+        });
+        
+    // 2. Bikin tanggal otomatis
     const bulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     const waktu = new Date();
     const tglOtomatis = `${waktu.getDate()} ${bulanIndo[waktu.getMonth()]} ${waktu.getFullYear()}`;
@@ -1677,8 +1675,8 @@ function tampilkanGrid() {
                 videoData.shift(); 
                 tampilkanPagination();
                 tampilkanGrid(); 
-            }
-        }
+             }
+         }
 
 
       // --- Fungsi Ekspor HTML / Merakit Code Menjadi File database.json Siap Sebar ---
