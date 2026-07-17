@@ -1625,17 +1625,22 @@ function tampilkanGrid() {
             }
         }
         
-        // --- Fungsi Sihir: Bersihin Iframe Otomatis Detik Itu Juga Saat Di-Paste ---
-        function bersihkanIframeInstan(elemenInput) {
-            let teks = elemenInput.value;
-            // Kalau ketahuan ada kata <iframe, langsung eksekusi!
-            if (teks.toLowerCase().includes("<iframe")) {
-                let ekstrak = teks.match(/src=["'](.*?)["']/);
-                if (ekstrak && ekstrak[1]) {
-                    elemenInput.value = ekstrak[1]; // Teks di kotak langsung berubah jadi URL aslinya doang
-                }
-            }
+        // --- Fungsi Sihir: Bersihkan Iframe Otomatis (Versi Kebal Badai) ---
+       function bersihkanIframeInstan(elemenInput) {
+       let teks = elemenInput.value;
+    
+        // Deteksi awal: Ubah ke huruf kecil sementara cuma buat ngecek ada tag iframe atau nggak
+       if (teks.toLowerCase().includes("<iframe")) {
+        
+        // Rumus Regex Sapu Jagat
+        let ekstrak = teks.match(/src\s*=\s*["'](.*?)["']/i);
+        
+        // Kalau ketemu URL-nya, langsung timpa isi kotaknya
+        if (ekstrak && ekstrak[1]) {
+            elemenInput.value = ekstrak[1]; 
         }
+    }
+}
         
 
         // --- Fungsi Klik Ubah Link Gambar Gambar ---
