@@ -1289,7 +1289,7 @@ function tampilkanGrid() {
 
         card.innerHTML = `
             <div class="thumbnail">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3C/svg%3E" data-src="${srcGambar}" alt="${video.judul}" class="lazy-thumb">
+                <img src="${srcGambar}" alt="${video.judul}" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/640x360/262626/888888?text=Loading...';">
                 <div class="overlay-stats">
                     <span><i class="fa-solid fa-eye"></i> ${video.views}</span>
                     <span><i class="fa-regular fa-clock"></i> ${video.durasi}</span>
@@ -1431,9 +1431,9 @@ function tampilkanGrid() {
         fragment.appendChild(card);
     });
 
-    wadahVideo.appendChild(fragment);
-    aktifkanLazyLoading(); // Jalankan mesin pengamat sensor gulir layar (Intersection Observer)
-}
+    wadahVideo.appendChild(fragment);   
+ }
+
 
         // --- Fungsi Render Rekomendasi Video Di Bawah Player (OPTIMIZED: True Lazy Loading) ---
         function tampilkanVideoRelated() {
@@ -1454,7 +1454,7 @@ function tampilkanGrid() {
                 
                 card.innerHTML = `
                     <div class="thumbnail">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3C/svg%3E" data-src="${srcGambar}" alt="${video.judul}" class="lazy-thumb">
+                        <img src="${srcGambar}" alt="${video.judul}" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/640x360/262626/888888?text=Loading...';">
                         <div class="overlay-stats">
                             <span><i class="fa-solid fa-eye"></i> ${video.views}</span>
                             <span><i class="fa-regular fa-clock"></i> ${video.durasi}</span>
@@ -1465,58 +1465,11 @@ function tampilkanGrid() {
                 fragment.appendChild(card);
             });
             
-            wadahRelated.appendChild(fragment);
-            aktifkanLazyLoading();
+            wadahRelated.appendChild(fragment);            
         }
 
-        // --- Fungsi Sistem Inti True Lazy Loading (Intersection Observer API) ---
-        let lazyObserver;
-
-        function aktifkanLazyLoading() {
-
-        if (lazyObserver) {
-        lazyObserver.disconnect();
-      }
-
-        lazyObserver = new IntersectionObserver((entries) => {
-
-        entries.forEach(entry => {
-
-            if (!entry.isIntersecting) return;
-
-            const img = entry.target;
-
-            if (!img.dataset.src) {
-                lazyObserver.unobserve(img);
-                return;
-            }
-
-            img.src = img.dataset.src;
-
-            img.onload = () => {
-                img.removeAttribute("data-src");
-                img.dataset.loaded = "true";
-            };
-
-            img.onerror = () => {
-                img.removeAttribute("data-src");
-            };
-
-            lazyObserver.unobserve(img);
-
-             });
-
-          }, {
-              root: null,
-              rootMargin: "300px 0px",
-              threshold: 0.01
-          });
-
-          document.querySelectorAll(".lazy-thumb[data-src]").forEach(img => {
-            lazyObserver.observe(img);
-          });
-
-      }
+        
+        
       
         // --- Modern Share Functionality ---
         function openShareMenu() {
