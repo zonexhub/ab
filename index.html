@@ -1300,7 +1300,7 @@ function tampilkanGrid() {
                 <div class="likes"></div>
                 <div class="title">${video.judul}</div>
                 <input type="text" class="edit-input-title" id="input-judul-${index}" value="${video.judul}" placeholder="Judul Video">
-                <input type="text" class="edit-input-link" id="input-player-${index}" value="${video.tujuan || video.player || ""}" placeholder="Link Embed Player">
+                <input type="text" class="edit-input-link" id="input-player-${index}" value="${video.tujuan || video.player || ""}" placeholder="Link Embed Player" oninput="bersihkanIframeInstan(this)">
                 
                 <!-- 👇 KOTAK VIEWS PAKAI DATALIST (BISA PILIH & BISA KETIK MANUAL) 👇 -->
                 <input type="text" list="pilihan-views" class="edit-input-title" id="input-view-${index}" value="${video.views}" placeholder="Views (misal: 12K)">
@@ -1624,6 +1624,19 @@ function tampilkanGrid() {
                 alert("Data tersimpan sementara!");
             }
         }
+        
+        // --- Fungsi Sihir: Bersihin Iframe Otomatis Detik Itu Juga Saat Di-Paste ---
+        function bersihkanIframeInstan(elemenInput) {
+            let teks = elemenInput.value;
+            // Kalau ketahuan ada kata <iframe, langsung eksekusi!
+            if (teks.toLowerCase().includes("<iframe")) {
+                let ekstrak = teks.match(/src=["'](.*?)["']/);
+                if (ekstrak && ekstrak[1]) {
+                    elemenInput.value = ekstrak[1]; // Teks di kotak langsung berubah jadi URL aslinya doang
+                }
+            }
+        }
+        
 
         // --- Fungsi Klik Ubah Link Gambar Gambar ---
         function gantiGambarURL(i) {
