@@ -1545,13 +1545,34 @@ function tampilkanGrid() {
                 // Ambil link dasar dari data video
                 let linkDownload = window.videoSedangDiputar.link_download || window.videoSedangDiputar.tujuan;
                 
-                // 👇 LOGIKA OTOMATIS: Deteksi URL dan ubah link embed jadi download pakai Regex 👇
+                // 👇 LOGIKA OTOMATIS DENGAN KAMUS PINTAR 👇
                 if (linkDownload) {
-                    // Regex akan menyapu semua link dari server MANAPUN.
-                    // Kalau ketemu /e/ diganti /d/. Kalau ketemu /embed/ diganti /download/
-                    linkDownload = linkDownload.replace(/\/(e|embed)\//i, function(match) {
-                        return match.toLowerCase() === '/e/' ? '/d/' : '/download/';
-                    });
+                    // 1. Sihir Khusus Google Drive
+                    if (linkDownload.includes("drive.google.com")) {
+                        linkDownload = linkDownload.replace(/\/file\/d\/(.*?)\/(view|preview).*/i, "/uc?export=download&id=$1");
+                    } 
+                    // 2. Sihir Kamus untuk Server Lainnya
+                    else {
+                        // Bikin "Kamus" pasangan link di sini (Bisa Anda ubah/tambah sendiri)
+                        const kamusLink = {
+                            '/e/': '/d/',             // /e/ berubah jadi /d/
+                            '/embed/': '/download/',  // /embed/ berubah jadi /download/
+                            '/v/': '/d/',             // /v/ berubah jadi /d/
+                            '/view/': '/dl/',         // /view/ berubah jadi /dl/
+                            '/play/': '/download/',   // /play/ berubah jadi /download/
+                            '/watch/': '/dl/',        // /watch/ berubah jadi /dl/
+                            '/nonton/': '/unduh/'     // /nonton/ berubah jadi /unduh/ (TAMBAHAN BARU)
+                        };
+
+                        // Deteksi kata yang ada di dalam kamus (TAMBAHAN BARU: nonton)
+                        linkDownload = linkDownload.replace(/\/(e|embed|v|view|play|watch|nonton)\//i, function(match) {
+                            let huruf = match.toLowerCase();
+                            
+                            // Kalau kata tersebut ada di kamus, ubah sesuai pasangannya. 
+                            // Kalau aneh-aneh (tidak ada), biarkan saja aslinya.
+                            return kamusLink[huruf] || match; 
+                        });
+                    }
                 }
                 
                 // 👇 MASUKKAN LINK IKLAN DIRECT LINK KHUSUS DOWNLOAD DI SINI 👇
@@ -1566,7 +1587,7 @@ function tampilkanGrid() {
                 window.location.href = linkDownload;
                 
             } else {
-                alert("Terjadi kesalahan, video tidak ditemukan.");
+                alert("Error: Video not found.");
             }
         }
 
