@@ -1732,7 +1732,7 @@ function downloadWebFinal() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "database.json"; 
+    a.download = atob('dmlkZW9fYWluZy5qc29u'); 
 
     // Trik 1: Tempel elemen ke body secara fisik
     document.body.appendChild(a);
@@ -1773,7 +1773,8 @@ async function muatDataAwal() {
      } else {
         console.log("Memuat data dari Server GitHub...");
         const versiAntiCache = new Date().getTime();
-        const response = await fetch('database.json?v=' + versiAntiCache);
+        const namaFileRahasia = atob('dmlkZW9fYWluZy5qc29u');
+        const response = await fetch(namaFileRahasia + '?v=' + versiAntiCache);
             
         if (!response.ok) throw new Error("Gagal mengambil data");
 
