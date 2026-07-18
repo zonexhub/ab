@@ -914,9 +914,6 @@ function cariVideo(event){
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
     
-        function cariVideo(event){
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
         
         // 1. Transisi: Paksa kembali ke halaman utama dari Player Page
         document.getElementById("playerPage").style.display = "none";
@@ -1842,14 +1839,15 @@ async function muatDataAwal() {
         let videoAktif = sessionStorage.getItem('videoAktif');
 
     if (viewAktif === 'player' && videoAktif) {
+        // Kalau abis refresh posisinya di Player Video, arahkanKeLink yg urus history
         arahkanKeLink(JSON.parse(videoAktif));
     } else {
         tampilkanGrid();
-    }
         
-        // KODE LAMA: history.replaceState({ view: 'grid', page: 1, category: 'HOME', search: '', scrollY: 0 }, "");
-        // KODE BARU BIKIN HISTORY BACK BUTTON NGIKUTIN STATE SAAT INI:
+        // KODE BARU: BIKIN HISTORY BACK BUTTON NGIKUTIN STATE SAAT INI 
+        // (Dipindah ke dalam else biar gak bentrok sama halaman video)
         history.replaceState({ view: 'grid', page: halamanSekarang, category: kategoriAktif, search: keywordTersimpan, scrollY: 0 }, "");
+    }
 
     } catch (error) {
         console.error("Waduh, gagal muat JSON:", error);
