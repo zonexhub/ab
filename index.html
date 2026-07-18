@@ -859,10 +859,11 @@ function bukaKunciRahasia() {
         hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-fire"></i>`;
     }
 
-    // Pastikan kotak pencarian dikosongkan
+     // Pastikan kotak pencarian dikosongkan
     document.getElementById("searchInput").value = "";
     
     halamanSekarang = 1;
+    tampilkanMenu();
     tampilkanPagination();
     tampilkanGrid();
 
@@ -1001,44 +1002,38 @@ function cariVideo(event){
     }, 300);
 }
 
-        // --- Fungsi Pengarah Klik ke Player & System Pop Under Iklan ---
-function arahkanKeLink(video) {
-    if (isEditMode) return;
-    
-    // TAMBAHIN DUA BARIS INI:
-    sessionStorage.setItem('viewAktif', 'player');
-    sessionStorage.setItem('videoAktif', JSON.stringify(video));
+         // --- Fungsi Pengarah Klik ke Player & System Pop Under Iklan ---
+        // TAMBAHAN: Parameter 'dariRefresh' biar sistem tau ini hasil refresh atau klik asli
+        function arahkanKeLink(video, dariRefresh = false) {
+            if (isEditMode) return;
+            
+            sessionStorage.setItem('viewAktif', 'player');
+            sessionStorage.setItem('videoAktif', JSON.stringify(video));
 
-    // 1. Rekam posisi scroll (Tetap amankan variabel global ini)
-    posisiScrollTerakhir = window.scrollY;
+            // JIKA BUKAN DARI REFRESH (KLIK ASLI DARI HALAMAN), BARU REKAM HISTORY & SCROLL
+            if (!dariRefresh) {
+                posisiScrollTerakhir = window.scrollY;
 
-    // 👇 UBAH & TAMBAHKAN BAGIAN KODE HISTORY DI SINI BRO 👇
-    
-    // Kunci data halaman, kategori, pencarian, dan scroll saat ini sebelum ditinggalkan
-    history.replaceState({ 
-        view: 'grid', 
-        page: halamanSekarang, 
-        category: kategoriAktif, 
-        search: document.getElementById('searchInput').value,
-        scrollY: posisiScrollTerakhir 
-    }, "");
+                history.replaceState({ 
+                    view: 'grid', 
+                    page: halamanSekarang, 
+                    category: kategoriAktif, 
+                    search: document.getElementById('searchInput').value,
+                    scrollY: posisiScrollTerakhir 
+                }, "");
 
-    // Rekam riwayat baru khusus untuk halaman player (nonton video)
-    history.pushState({ 
-        view: 'player', 
-        video: video, 
-        page: halamanSekarang, 
-        category: kategoriAktif, 
-        search: document.getElementById('searchInput').value 
-    }, "", "#watch");
+                history.pushState({ 
+                    view: 'player', 
+                    video: video, 
+                    page: halamanSekarang, 
+                    category: kategoriAktif, 
+                    search: document.getElementById('searchInput').value 
+                }, "", "#watch");
+            }
 
-    // 👆 -------------------------------------------------- 👆
-
-    if (typeof gtag === 'function') {
-        gtag('event', 'video_click', {
-            video_title: video.judul
-        });
-    }
+            if (typeof gtag === 'function') {
+                gtag('event', 'video_click', { video_title: video.judul });
+            }
 
     document.getElementById("sectionTitle").style.display = "none";
     document.querySelector("main").style.display = "none";
@@ -1082,104 +1077,120 @@ if(elTanggal) {
     // 👆 ------------------------------------------ 👆
 }
 
-        // --- Master Otak Pendeteksi Tombol Back Bawaan HP ---
-window.addEventListener("popstate", function(event) {
-    if (!event.state) return;
+        // --- Master Otak Pendeteksi Tombol Back Bawaan HP (ANTI-BADAI) ---
+        window.addEventListener("popstate", function(event) {
+            if (!event.state) return;
+            const state = event.state;
 
-    const state = event.state;
+            // 1. Tarik masa lalu ke variabel global
+            halamanSekarang = state.page || 1;
+            kategoriAktif = state.category || "HOME";
+            const keyword = state.search || "";
+            document.getElementById('searchInput').value = keyword;
+            const hotVideoEl = document.getElementById("hot-video-text");
 
-    // 1. Kembalikan semua data variabel global ke masa lalu
-    halamanSekarang = state.page || 1;
-    kategoriAktif = state.category || "HOME";
-    const keyword = state.search || "";
-    document.getElementById('searchInput').value = keyword;
-    const hotVideoEl = document.getElementById("hot-video-text");
+            // 2. WAJIB: Sinkronkan ke Memori Storage Biar Aman Kalau di-Refresh Lagi
+            sessionStorage.setItem('halamanSekarang', halamanSekarang);
+            sessionStorage.setItem('kategoriAktif', kategoriAktif);
+            if(keyword) sessionStorage.setItem('keywordSearch', keyword);
+            else sessionStorage.removeItem('keywordSearch');
 
-    // 2. Bangun kembali filter pencarian berdasarkan riwayat
-    if (keyword.trim() === '') {
-        hasilPencarian = null;
+            // 3. WAJIB: Update Menu Navigasi (Warna Pink) Sesuai Masa Lalu
+            tampilkanMenu();
+
+            // 4. Bangun kembali logika Filter/Pencarian
+            if (keyword.trim() === '') {
+                hasilPencarian = null;
+                document.getElementById("bottom-banner").style.display = "block";
+                document.getElementById("tombol-telegram").style.display = "block";
+                
+                if (kategoriAktif === "HOME") {
+                    document.getElementById("sectionTitle").style.display = "block";
+                    document.getElementById("sectionTitle").querySelector("h2").textContent = "Most Popular & Viral Porn Video Collection: Indo, JAV, and Western.";
+                    document.getElementById("home-banner").style.display = "flex";
+                    hotVideoEl.style.display = "flex";
+                    hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-fire"></i>`;
+                } else {
+                    document.getElementById("sectionTitle").style.display = "none";
+                    document.getElementById("home-banner").style.display = "none";
+                    hotVideoEl.style.display = "flex";
+                    let flag = "";
+                    let catLower = (kategoriAktif || "").toLowerCase();
+                    if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
+                    else if(catLower.includes("jav")) flag = '<span class="fi fi-jp"></span>';
+                    else if(catLower.includes("western")) flag = '<span class="fi fi-us"></span>';
+                    hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
+                }
+            } else {
+                hasilPencarian = videoData.filter(v => (v.judul || '').toLowerCase().includes(keyword.toLowerCase().trim()));
+                document.getElementById("sectionTitle").style.display = "block";
+                const amanKeywordHistory = keyword.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                document.getElementById("sectionTitle").querySelector("h2").innerHTML = hasilPencarian.length > 0 
+                    ? `Search results for: <span style="color: var(--accent-color); font-style: italic;">"${amanKeywordHistory}"</span>` 
+                    : `No results found for: <span style="color: var(--accent-color); font-style: italic;">"${amanKeywordHistory}"</span>`;
+                document.getElementById("home-banner").style.display = "none";
+                hotVideoEl.style.display = "none";
+                document.getElementById("bottom-banner").style.display = "none";
+                document.getElementById("tombol-telegram").style.display = "none";
+            }
+
+            // 5. Atur Tampilan Layar & Sinkronkan Memori View
+            if (state.view === 'player') {
+                sessionStorage.setItem('viewAktif', 'player');
+                sessionStorage.setItem('videoAktif', JSON.stringify(state.video));
+                
+                document.getElementById("sectionTitle").style.display = "none";
+                document.querySelector("main").style.display = "none";
+                document.getElementById("playerPage").style.display = "block";
+                
+                document.getElementById("playerTitle").textContent = state.video.judul;
+                document.getElementById("playerCategory").textContent = state.video.kategori ? "#" + state.video.kategori : "#Uncategorized";
+                window.videoSedangDiputar = state.video;
+
+                const playerStatsBlock = document.querySelector(".player-stats");
+                playerStatsBlock.querySelector(".view-count").textContent = state.video.views;
+                playerStatsBlock.querySelector(".duration-count").textContent = state.video.durasi;
+
+                document.getElementById("playerFrame").src = state.video.player || state.video.tujuan || "";
+                tampilkanVideoRelated();
+                window.scrollTo(0, 0);
+
+                //  KODE WAJIB BUAT MAXIMALIN CUAN IKLAN ‡
+                const wadahIklan = document.getElementById("playerAds");
+                if(wadahIklan) {
+                    // Hapus iklan lama
+                    wadahIklan.innerHTML = '<span class="ad-label">- Advertisement -</span>';
+                    // Panggil ulang iklan baru secara paksa
+                    const scriptIklan = document.createElement('script');
+                    scriptIklan.type = 'text/javascript';
+                    scriptIklan.async = true;
+                    // Nanti taruh URL script Social Bar lu di bawah ini:
+                    // scriptIklan.src = ' Tulis link script iklan lu di sini '; 
+                    wadahIklan.appendChild(scriptIklan);
+                }
+                // † BATAS KODE CUAN †
+                
+            } else {
+                sessionStorage.setItem('viewAktif', 'grid');
+                sessionStorage.removeItem('videoAktif');
+
+                document.getElementById("playerPage").style.display = "none";
+                document.querySelector("main").style.display = "block";
+                document.querySelector("nav").style.display = "flex";
+                document.getElementById("playerFrame").src = ""; 
+
+                tampilkanPagination();
+                tampilkanGrid();
+
+                // Kembalikan Posisi Scroll Akurat!
+                if (state.scrollY !== undefined) {
+                    window.scrollTo(0, state.scrollY);
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            }
+        });
         
-        // --- MUNCULKAN KEMBALI SAAT BACK KE HOME / KATEGORI ---
-        document.getElementById("bottom-banner").style.display = "block";
-        document.getElementById("tombol-telegram").style.display = "block";
-        
-        if (kategoriAktif === "HOME") {
-            document.getElementById("sectionTitle").style.display = "block";
-            document.getElementById("sectionTitle").querySelector("h2").textContent = "Viral Porn, Indonesian Porn, Western Porn, and Porn JAV.";
-            document.getElementById("home-banner").style.display = "flex";
-            
-            hotVideoEl.style.display = "flex";
-            hotVideoEl.innerHTML = `Hot Porn Videos <i class="fa-solid fa-fire"></i>`;
-        } else {
-            document.getElementById("sectionTitle").style.display = "none";
-            document.getElementById("home-banner").style.display = "none";
-            
-            hotVideoEl.style.display = "flex";
-            let flag = "";
-            let catLower = (kategoriAktif || "").toLowerCase();
-            
-            // LOGIKA BARU MENGGUNAKAN LIBRARY (UNTUK TOMBOL BACK)
-            if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
-            else if(catLower.includes("jav")) flag = '<span class="fi fi-jp"></span>';
-            else if(catLower.includes("western")) flag = '<span class="fi fi-us"></span>';
-            hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
-        }
-    } else {
-        hasilPencarian = videoData.filter(v => (v.judul || '').toLowerCase().includes(keyword.toLowerCase().trim()));
-        document.getElementById("sectionTitle").style.display = "block";
-        
-        // --- KODE BARU UNTUK WARNA PINK DAN MIRING DI TOMBOL BACK ---
-        const amanKeywordHistory = keyword.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        document.getElementById("sectionTitle").querySelector("h2").innerHTML = hasilPencarian.length > 0 
-            ? `Search results for: <span style="color: var(--accent-color); font-style: italic;">"${amanKeywordHistory}"</span>` 
-            : `No results found for: <span style="color: var(--accent-color); font-style: italic;">"${amanKeywordHistory}"</span>`;
-            
-        document.getElementById("home-banner").style.display = "none";
-        hotVideoEl.style.display = "none";
-        
-        // --- SEMBUNYIKAN ---
-        document.getElementById("bottom-banner").style.display = "none";
-        document.getElementById("tombol-telegram").style.display = "none";
-    }
-
-    // 3. Atur Tampilan Layar (Apakah harus buka Video Player atau Grid Utama)
-    if (state.view === 'player') {
-        document.getElementById("sectionTitle").style.display = "none";
-        document.querySelector("main").style.display = "none";
-        document.getElementById("playerPage").style.display = "block";
-        
-        // 4. Populate Detailed Player Page (Back behavior)
-        document.getElementById("playerTitle").textContent = state.video.judul;
-        document.getElementById("playerCategory").textContent = state.video.kategori ? "#" + state.video.kategori : "#Uncategorized";
-        window.videoSedangDiputar = state.video;
-
-        const playerStatsBlock = document.querySelector(".player-stats");
-        playerStatsBlock.querySelector(".view-count").textContent = state.video.views;
-        playerStatsBlock.querySelector(".duration-count").textContent = state.video.durasi;
-
-        document.getElementById("playerFrame").src = state.video.player || state.video.tujuan || "";
-        tampilkanVideoRelated();
-        window.scrollTo(0, 0);
-    } else {
-        document.getElementById("playerPage").style.display = "none";
-        document.querySelector("main").style.display = "block";
-        document.querySelector("nav").style.display = "flex";
-        document.getElementById("playerFrame").src = ""; // Matikan video player
-
-        // Render ulang seluruh interface
-        tampilkanHeader();
-        tampilkanMenu();
-        tampilkanPagination();
-        tampilkanGrid();
-
-        // Lompat ke posisi scroll yang tepat
-        if (state.scrollY !== undefined) {
-            window.scrollTo(0, state.scrollY);
-        } else {
-            window.scrollTo(0, 0);
-        }
-    }
-});
         function bukaMenu(url) { window.open(url, '_blank', 'noopener,noreferrer'); }
 
 
@@ -1197,13 +1208,16 @@ window.addEventListener("popstate", function(event) {
 
         // --- Fungsi Render Tampilan Menu Navigasi Kategori ---
         function tampilkanMenu() {
-            wadahMenu.innerHTML = `<a href="javascript:void(0)" class="active" onclick="kembaliKeHome()">All Videos</a>`;
+            let isHomeActive = (kategoriAktif === "HOME" || kategoriAktif === "") ? 'class="active"' : '';
+            wadahMenu.innerHTML = `<a href="javascript:void(0)" ${isHomeActive} onclick="kembaliKeHome()">All Videos</a>`;
+            
             menuData.forEach((menu, index) => {
                 if (isEditMode) {
                     wadahMenu.innerHTML += `<div class="edit-block"><input type="text" class="edit-sm-input" id="input-menu-text-${index}" value="${menu.text}"><input type="text" class="edit-sm-input edit-sm-link" id="input-menu-link-${index}" value="${menu.link}" placeholder="Link"></div>`;
-                   } else {
-                  wadahMenu.innerHTML += `<a href="javascript:void(0)" onclick="bukaKategoriDenganIklan('${menu.link}', '${menu.text}')">${menu.text}</a>`;
-                 }
+                } else {
+                    let isKategoriActive = (kategoriAktif === menu.text) ? 'class="active"' : '';
+                    wadahMenu.innerHTML += `<a href="javascript:void(0)" ${isKategoriActive} onclick="bukaKategoriDenganIklan('${menu.link}', '${menu.text}')">${menu.text}</a>`;
+                }
             });
         }
 
@@ -1834,19 +1848,18 @@ async function muatDataAwal() {
         tampilkanMenu();
         tampilkanPagination(); 
         
-    // GANTI TAMPILKAN GRID DENGAN LOGIKA INI:
+   // LOGIKA PERENDERAN AWAL & REFRESH ANTI BENTROK:
         let viewAktif = sessionStorage.getItem('viewAktif') || 'grid';
         let videoAktif = sessionStorage.getItem('videoAktif');
 
     if (viewAktif === 'player' && videoAktif) {
-        // Kalau abis refresh posisinya di Player Video, arahkanKeLink yg urus history
-        arahkanKeLink(JSON.parse(videoAktif));
+        // Param "true" = Kasih tau sistem kalau ini cuma refresh, jangan rusak history!
+        arahkanKeLink(JSON.parse(videoAktif), true); 
     } else {
         tampilkanGrid();
-        
-        // KODE BARU: BIKIN HISTORY BACK BUTTON NGIKUTIN STATE SAAT INI 
-        // (Dipindah ke dalam else biar gak bentrok sama halaman video)
-        history.replaceState({ view: 'grid', page: halamanSekarang, category: kategoriAktif, search: keywordTersimpan, scrollY: 0 }, "");
+        // Pertahankan Scroll Y dari masa lalu kalau ada, biar gak direset jadi 0 paksa
+        let currentScroll = history.state && history.state.scrollY !== undefined ? history.state.scrollY : window.scrollY;
+        history.replaceState({ view: 'grid', page: halamanSekarang, category: kategoriAktif, search: keywordTersimpan, scrollY: currentScroll }, "");
     }
 
     } catch (error) {
