@@ -809,7 +809,11 @@ function bukaKunciRahasia() {
 }
 
         
-         function filterKategori(kategori){
+    function filterKategori(kategori){
+         
+    sessionStorage.setItem('viewAktif', 'grid');
+    sessionStorage.removeItem('videoAktif');
+
     document.getElementById("playerPage").style.display = "none";
     document.querySelector("main").style.display = "block";
     document.querySelector("nav").style.display = "flex";
@@ -874,6 +878,10 @@ function bukaKunciRahasia() {
 
 
            function kembaliKeHome() {
+           
+           sessionStorage.setItem('viewAktif', 'grid');
+           sessionStorage.removeItem('videoAktif');
+
            document.getElementById("playerPage").style.display = "none";
            document.querySelector("main").style.display = "block";
            document.querySelector("nav").style.display = "flex";
@@ -905,6 +913,10 @@ function gantiHalaman(page){
 function cariVideo(event){
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
+    
+        function cariVideo(event){
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
         
         // 1. Transisi: Paksa kembali ke halaman utama dari Player Page
         document.getElementById("playerPage").style.display = "none";
@@ -995,6 +1007,10 @@ function cariVideo(event){
         // --- Fungsi Pengarah Klik ke Player & System Pop Under Iklan ---
 function arahkanKeLink(video) {
     if (isEditMode) return;
+    
+    // TAMBAHIN DUA BARIS INI:
+    sessionStorage.setItem('viewAktif', 'player');
+    sessionStorage.setItem('videoAktif', JSON.stringify(video));
 
     // 1. Rekam posisi scroll (Tetap amankan variabel global ini)
     posisiScrollTerakhir = window.scrollY;
@@ -1820,7 +1836,16 @@ async function muatDataAwal() {
         
         tampilkanMenu();
         tampilkanPagination(); 
+        
+    // GANTI TAMPILKAN GRID DENGAN LOGIKA INI:
+        let viewAktif = sessionStorage.getItem('viewAktif') || 'grid';
+        let videoAktif = sessionStorage.getItem('videoAktif');
+
+    if (viewAktif === 'player' && videoAktif) {
+        arahkanKeLink(JSON.parse(videoAktif));
+    } else {
         tampilkanGrid();
+    }
         
         // KODE LAMA: history.replaceState({ view: 'grid', page: 1, category: 'HOME', search: '', scrollY: 0 }, "");
         // KODE BARU BIKIN HISTORY BACK BUTTON NGIKUTIN STATE SAAT INI:
