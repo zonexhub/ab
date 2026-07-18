@@ -1281,9 +1281,10 @@ function tampilkanGrid() {
         const gambarLoading = "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 10%22%3E%3Crect width=%2216%22 height=%2210%22 fill=%22%231a1a1a%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%221.5%22 font-weight=%22bold%22 font-style=%22italic%22 fill=%22%23999999%22%3ELoading%3Ctspan opacity=%220%22%3E.%3Canimate attributeName=%22opacity%22 values=%220;1;0%22 dur=%221.5s%22 begin=%220s%22 repeatCount=%22indefinite%22/%3E%3C/tspan%3E%3Ctspan opacity=%220%22%3E.%3Canimate attributeName=%22opacity%22 values=%220;1;0%22 dur=%221.5s%22 begin=%220.5s%22 repeatCount=%22indefinite%22/%3E%3C/tspan%3E%3Ctspan opacity=%220%22%3E.%3Canimate attributeName=%22opacity%22 values=%220;1;0%22 dur=%221.5s%22 begin=%221s%22 repeatCount=%22indefinite%22/%3E%3C/tspan%3E%3C/text%3E%3C/svg%3E";
         
         // SETINGAN URL GAMBAR TANPA HARUS VPN
-            const srcGambar = video.gambar 
-            ? (video.gambar.startsWith('http') ? 'https://images.weserv.nl/?url=' + encodeURIComponent(video.gambar) + '&w=300&q=70' : video.gambar) 
-           : gambarLoading;
+            // Memanggil gambar menggunakan proxy subdomain pribadi
+                const srcGambar = video.gambar 
+                ? (video.gambar.startsWith('http') ? 'https://img-proxy.zonexhub.workers.dev/?url=' + encodeURIComponent(video.gambar) : video.gambar) 
+                : gambarLoading;
 
         const card = document.createElement('div');
         card.className = `video-card ${isEditMode ? 'editing' : ''}`;
@@ -1453,9 +1454,10 @@ function tampilkanGrid() {
                 const gambarLoading = "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 10%22%3E%3Crect width=%2216%22 height=%2210%22 fill=%22%231a1a1a%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%221.5%22 font-weight=%22bold%22 font-style=%22italic%22 fill=%22%23999999%22%3ELoading%3Ctspan opacity=%220%22%3E.%3Canimate attributeName=%22opacity%22 values=%220;1;0%22 dur=%221.5s%22 begin=%220s%22 repeatCount=%22indefinite%22/%3E%3C/tspan%3E%3Ctspan opacity=%220%22%3E.%3Canimate attributeName=%22opacity%22 values=%220;1;0%22 dur=%221.5s%22 begin=%220.5s%22 repeatCount=%22indefinite%22/%3E%3C/tspan%3E%3Ctspan opacity=%220%22%3E.%3Canimate attributeName=%22opacity%22 values=%220;1;0%22 dur=%221.5s%22 begin=%221s%22 repeatCount=%22indefinite%22/%3E%3C/tspan%3E%3C/text%3E%3C/svg%3E";
                 
                // SETINGAN URL GAMBAR TANPA HARUS VPN
-                   const srcGambar = video.gambar 
-                   ? (video.gambar.startsWith('http') ? 'https://images.weserv.nl/?url=' + encodeURIComponent(video.gambar) + '&w=300&q=70' : video.gambar) 
-                 : gambarLoading;
+            // Memanggil gambar menggunakan proxy subdomain pribadi
+                const srcGambar = video.gambar 
+                ? (video.gambar.startsWith('http') ? 'https://img-proxy.zonexhub.workers.dev/?url=' + encodeURIComponent(video.gambar) : video.gambar) 
+                : gambarLoading;
            
            
                 const indexAsli = videoData.findIndex(v => v.judul === video.judul && v.tujuan === video.tujuan);
