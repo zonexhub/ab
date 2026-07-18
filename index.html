@@ -776,9 +776,13 @@
         const wadahPag = document.getElementById("tempat-pagination");
         let isEditMode = false;
         const videoPerHalaman = 14;
-        let halamanSekarang = 1;
+        
+        // --- KODE BARU: BACA MEMORI SAAT REFRESH ---
+        let halamanSekarang = parseInt(sessionStorage.getItem('halamanSekarang')) || 1;
+        let kategoriAktif = sessionStorage.getItem('kategoriAktif') || "HOME";
+        let keywordTersimpan = sessionStorage.getItem('keywordSearch') || "";
+        
         let hasilPencarian = null;
-        let kategoriAktif = "HOME";
         let debounceTimer;
         let posisiScrollTerakhir = 0;
 
@@ -816,6 +820,11 @@ function bukaKunciRahasia() {
     
     kategoriAktif = kategori;
     hasilPencarian = null;
+    
+    // SIMPAN STATE KE MEMORI
+    sessionStorage.setItem('kategoriAktif', kategori);
+    sessionStorage.setItem('halamanSekarang', 1);
+    sessionStorage.removeItem('keywordSearch');
 
     const hotVideoEl = document.getElementById("hot-video-text");
 
@@ -877,6 +886,7 @@ function bukaKunciRahasia() {
         // --- Fungsi Sistem Ganti Halaman Konten ---
 function gantiHalaman(page){
     halamanSekarang = page;
+    sessionStorage.setItem('halamanSekarang', page); // SIMPAN HALAMAN SAAT DIKLIK
     tampilkanPagination();
     tampilkanGrid();
     window.scrollTo({top:0,behavior:'smooth'});
@@ -908,9 +918,10 @@ function cariVideo(event){
         const titleText = sectionTitle.querySelector("h2");
         const hotVideoEl = document.getElementById("hot-video-text");
 
-        // 2. Logika Pencarian
+       // 2. Logika Pencarian
         if(keyword === ''){
             hasilPencarian = null;
+            sessionStorage.removeItem('keywordSearch'); // HAPUS MEMORI PENCARIAN
             
                  // --- MUNCULKAN KEMBALI SAAT PENCARIAN DIHAPUS ---
                document.getElementById("bottom-banner").style.display = "block";
@@ -938,6 +949,7 @@ function cariVideo(event){
                 hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
             }
         } else {
+            sessionStorage.setItem('keywordSearch', keywordInput); // SIMPAN KATA KUNCI
             // Melakukan filter
             hasilPencarian = videoData.filter(v => 
     (v.judul || '').toLowerCase().includes(keyword) || 
@@ -963,6 +975,7 @@ function cariVideo(event){
         }
         
         halamanSekarang = 1;
+        sessionStorage.setItem('halamanSekarang', 1); // RESET HALAMAN KE 1
         tampilkanPagination();
         tampilkanGrid();
         
@@ -1773,11 +1786,45 @@ async function muatDataAwal() {
         wadahVid.style.justifyContent = "";
         wadahVid.style.minHeight = "";
         
+        // --- KODE BARU: KEMBALIKAN UI KATEGORI / PENCARIAN SEBELUM DIRENDER ---
+        if (keywordTersimpan !== "") {
+            document.getElementById('searchInput').value = keywordTersimpan;
+            hasilPencarian = videoData.filter(v => 
+                (v.judul || '').toLowerCase().includes(keywordTersimpan.toLowerCase()) || 
+                (v.kategori || '').toLowerCase().includes(keywordTersimpan.toLowerCase())
+            );
+            
+            document.getElementById("sectionTitle").style.display = "block";
+            document.getElementById("home-banner").style.display = "none";
+            if(document.getElementById("hot-video-text")) document.getElementById("hot-video-text").style.display = "none";
+            document.getElementById("bottom-banner").style.display = "none";
+            document.getElementById("tombol-telegram").style.display = "none";
+            
+            const amanKeyword = keywordTersimpan.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            document.getElementById("sectionTitle").querySelector("h2").innerHTML = `Search results for : <span style="color: var(--accent-color); font-style: italic;">"${amanKeyword}"</span>`;
+        } else if (kategoriAktif !== "HOME") {
+            document.getElementById("sectionTitle").style.display = "none";
+            document.getElementById("home-banner").style.display = "none";
+            const hotVideoEl = document.getElementById("hot-video-text");
+            if(hotVideoEl) {
+                hotVideoEl.style.display = "flex";
+                let flag = "";
+                let catLower = (kategoriAktif || "").toLowerCase();
+                if(catLower.includes("indonesia")) flag = '<span class="fi fi-id"></span>';
+                else if(catLower.includes("jav")) flag = '<span class="fi fi-jp"></span>';
+                else if(catLower.includes("western")) flag = '<span class="fi fi-us"></span>';
+                hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
+            }
+        }
+        // ----------------------------------------------------------------------
+        
         tampilkanMenu();
         tampilkanPagination(); 
         tampilkanGrid();
         
-        history.replaceState({ view: 'grid', page: 1, category: 'HOME', search: '', scrollY: 0 }, "");
+        // KODE LAMA: history.replaceState({ view: 'grid', page: 1, category: 'HOME', search: '', scrollY: 0 }, "");
+        // KODE BARU BIKIN HISTORY BACK BUTTON NGIKUTIN STATE SAAT INI:
+        history.replaceState({ view: 'grid', page: halamanSekarang, category: kategoriAktif, search: keywordTersimpan, scrollY: 0 }, "");
 
     } catch (error) {
         console.error("Waduh, gagal muat JSON:", error);
