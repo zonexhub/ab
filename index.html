@@ -1005,31 +1005,39 @@ function cariVideo(event){
          // --- Fungsi Pengarah Klik ke Player & System Pop Under Iklan ---
         // TAMBAHAN: Parameter 'dariRefresh' biar sistem tau ini hasil refresh atau klik asli
         function arahkanKeLink(video, dariRefresh = false) {
-            if (isEditMode) return;
-            
-            sessionStorage.setItem('viewAktif', 'player');
-            sessionStorage.setItem('videoAktif', JSON.stringify(video));
+    if (isEditMode) return;
+    
+    // 1. TAMBAHKAN BARIS INI: Cek status halaman sebelum diubah
+    const statusSebelumnya = sessionStorage.getItem('viewAktif'); 
 
-            // JIKA BUKAN DARI REFRESH (KLIK ASLI DARI HALAMAN), BARU REKAM HISTORY & SCROLL
-            if (!dariRefresh) {
-                posisiScrollTerakhir = window.scrollY;
+    sessionStorage.setItem('viewAktif', 'player');
+    sessionStorage.setItem('videoAktif', JSON.stringify(video));
 
-                history.replaceState({ 
-                    view: 'grid', 
-                    page: halamanSekarang, 
-                    category: kategoriAktif, 
-                    search: document.getElementById('searchInput').value,
-                    scrollY: posisiScrollTerakhir 
-                }, "");
+    if (!dariRefresh) {
+        
+        // 2. BUNGKUS REPLACE STATE: Hanya timpa ke 'grid' jika sebelumnya bukan dari 'player'
+        if (statusSebelumnya !== 'player') {
+            posisiScrollTerakhir = window.scrollY;
+            history.replaceState({ 
+                view: 'grid', 
+                page: halamanSekarang, 
+                category: kategoriAktif, 
+                search: document.getElementById('searchInput').value,
+                scrollY: posisiScrollTerakhir 
+            }, "");
+        }
 
-                history.pushState({ 
-                    view: 'player', 
-                    video: video, 
-                    page: halamanSekarang, 
-                    category: kategoriAktif, 
-                    search: document.getElementById('searchInput').value 
-                }, "", "#watch");
-            }
+        // Push video baru ke riwayat (TETAP SEPERTI ASLINYA)
+        history.pushState({ 
+            view: 'player', 
+            video: video, 
+            page: halamanSekarang, 
+            category: kategoriAktif, 
+            search: document.getElementById('searchInput').value 
+        }, "", "#watch");
+    }
+
+    // ... sisa kode di bawahnya tetap sama ...
 
             if (typeof gtag === 'function') {
                 gtag('event', 'video_click', { video_title: video.judul });
