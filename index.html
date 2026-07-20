@@ -625,10 +625,12 @@
                     Categories : <span id="playerCategory" style="font-style: italic; margin-bottom: 12px; color: var(--accent-color);"></span>
                 </div>
                 
-                <!-- 👇 TEKS INFO DOWNLOAD (POLOS TAPI COPYWRITING NENDANG) 👇 -->
-                <div style="font-size: 13px; color: #999; font-style: italic; margin-bottom: 15px;">
-                    * Malas buffering dan keganggu iklan? Download videonya langsung di bawah, jaminan anti ribet!
-                </div>
+                <!-- Teks Bantuan VPN & Adblock -->
+                <div style="font-size: 12px; color: #ff9800; font-style: italic; margin-bottom: 15px; background: rgba(255, 152, 0, 0.1); padding: 8px; border-radius: 4px; border-left: 3px solid #ff9800;">
+                  <i class="fa-solid fa-triangle-exclamation"></i> 
+                  <b>Tips Nonton Lancar:</b> Video error atau cuma muter doang? Coba <b>Aktifkan VPN</b> atau <b>Matikan AdBlock</b> kamu sejenak. <br>
+                <span style="color: #999; font-size: 11px;">* Malas buffering atau keganggu iklan? Download videonya langsung di tombol bawah, jaminan anti ribet!</span>
+             </div>
                 
                
                 <!-- Tambahkan flex-wrap: nowrap agar dipaksa sejajar 1 baris -->
@@ -990,7 +992,7 @@ function cariVideo(event){
         tampilkanGrid();
         
    // 👇 SELIPKAN KODE BARU INI DI SINI BRO 👇
-        history.pushState({ 
+        history.replaceState({
             view: 'grid', 
             page: 1, 
             category: kategoriAktif, 
@@ -1130,7 +1132,12 @@ if(elTanggal) {
                     hotVideoEl.innerHTML = `Categories : <span style="color: var(--accent-color); font-style: italic;">${kategoriAktif}</span> ${flag}`;
                 }
             } else {
-                hasilPencarian = videoData.filter(v => (v.judul || '').toLowerCase().includes(keyword.toLowerCase().trim()));
+                // 👇 INI YANG DIBERBAIKI (BISA CARI JUDUL & KATEGORI SAAT TOMBOL BACK DITEKAN) 👇
+                hasilPencarian = videoData.filter(v => 
+                    (v.judul || '').toLowerCase().includes(keyword.toLowerCase().trim()) || 
+                    (v.kategori || '').toLowerCase().includes(keyword.toLowerCase().trim())
+                );
+                // 👆 ---------------------------------------------------------------------- 👆
                 document.getElementById("sectionTitle").style.display = "block";
                 const amanKeywordHistory = keyword.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 document.getElementById("sectionTitle").querySelector("h2").innerHTML = hasilPencarian.length > 0 
